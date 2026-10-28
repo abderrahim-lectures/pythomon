@@ -7,6 +7,8 @@ challenge to act, and watch real Python code run to verify it.
 The game runs in the browser. Python runs in a Web Worker through
 [Pyodide](https://pyodide.org/), so no server is needed.
 
+![Pythomon screenshot](docs/screenshot.png)
+
 ## Tech
 
 - [Vite](https://vitejs.dev/) for the dev server and the build
@@ -32,7 +34,7 @@ npm test           # unit tests
 npm run test:e2e   # end-to-end tests
 ```
 
-## Play online
+## Play now
 
 When this repo has GitHub Pages enabled, the game is playable at
 https://abderrahim-lectures.github.io/pythomon/
