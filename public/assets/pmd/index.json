@@ -1,0 +1,38 @@
+{
+  "beasts": {
+    "zeroling": "zeroling.png",
+    "intiger": "intiger.png",
+    "biginti": "biginti.png",
+    "striggle": "striggle.png",
+    "strigor": "strigor.png",
+    "lexicon": "lexicon.png",
+    "listle": "listle.png",
+    "listrix": "listrix.png",
+    "megalist": "megalist.png",
+    "curly": "curly.png",
+    "dictling": "dictling.png",
+    "keylord": "keylord.png",
+    "bitty": "bitty.png",
+    "booleon": "booleon.png",
+    "truthwyrm": "truthwyrm.png",
+    "ouroboros": "ouroboros.png"
+  },
+  "backs": {
+    "zeroling": "zeroling-back.png",
+    "intiger": "intiger-back.png",
+    "biginti": "biginti-back.png",
+    "striggle": "striggle-back.png",
+    "strigor": "strigor-back.png",
+    "lexicon": "lexicon-back.png",
+    "listle": "listle-back.png",
+    "listrix": "listrix-back.png",
+    "megalist": "megalist-back.png",
+    "curly": "curly-back.png",
+    "dictling": "dictling-back.png",
+    "keylord": "keylord-back.png",
+    "bitty": "bitty-back.png",
+    "booleon": "booleon-back.png",
+    "truthwyrm": "truthwyrm-back.png",
+    "ouroboros": "ouroboros-back.png"
+  }
+}

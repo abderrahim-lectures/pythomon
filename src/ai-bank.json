@@ -1,0 +1,42 @@
+[
+  {
+    "kind": "mc",
+    "topic": "int",
+    "tier": "novice",
+    "prompt": "What is the value of 8 % 3?",
+    "code": "8 % 3",
+    "options": [
+      "1",
+      "2",
+      "0",
+      "3"
+    ],
+    "answer": 1,
+    "explain": "8 divided by 3 gives a remainder of 2."
+  },
+  {
+    "kind": "fill",
+    "topic": "int",
+    "tier": "novice",
+    "prompt": "Fill in the blank to perform integer division.",
+    "code": "9 ____ 2",
+    "accept": [
+      "//"
+    ],
+    "explain": "The // operator performs integer division."
+  },
+  {
+    "kind": "code",
+    "topic": "int",
+    "tier": "novice",
+    "prompt": "Complete the code to set result to 5 to the power of 2.",
+    "starter": "result = 5 ____ 2",
+    "mode": "expr",
+    "tests": [
+      {
+        "expect": 25
+      }
+    ],
+    "explain": "The ** operator raises a number to a power."
+  }
+]

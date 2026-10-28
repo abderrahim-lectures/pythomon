@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Pythomon sprite sheet</title>
+<style>
+  html, body { margin: 0; background: #c9cdb8; }
+  canvas { display: block; margin: 0 auto; image-rendering: pixelated; }
+</style>
+</head>
+<body>
+<canvas id="game" width="760" height="1130"></canvas>
+<script src="../js/core.js"></script>
+<script src="../js/data.js"></script>
+<script src="../js/art.js"></script>
+<script>
+(function () {
+  function render() {
+  var ctx = PM.ctx;
+  PM.rect(0, 0, 760, 1130, '#dfe3cc');
+
+  ctx.fillStyle = PM.C.ink;
+  ctx.font = 'bold 14px monospace';
+  ctx.fillText('BEASTS - front', 12, 20);
+
+  var ids = Object.keys(PM.data.SPECIES);
+  var cellW = 180, cellH = 180, cols = 4, scale = 4;
+  for (var i = 0; i < ids.length; i++) {
+    var cx = (i % cols) * cellW + 10;
+    var cy = Math.floor(i / cols) * cellH + 40;
+    var spec = PM.data.SPECIES[ids[i]];
+    PM.rect(cx, cy, 168, 168, '#c6cfae');
+    PM.art.drawBeast(ctx, spec, cx + 4, cy + 4, { scale: scale });
+    ctx.fillStyle = PM.C.ink;
+    ctx.font = 'bold 11px monospace';
+    ctx.fillText(spec.name, cx + 4, cy + 150);
+  }
+
+  var py = Math.ceil(ids.length / cols) * cellH + 60;
+  ctx.fillStyle = PM.C.ink;
+  ctx.font = 'bold 14px monospace';
+  ctx.fillText('PEOPLE - down / walk 2', 12, py);
+  var people = ['hero', 'hero2', 'rival', 'prof', 'mom', 'grunt', 'int', 'str', 'list', 'dict', 'bool', 'kid', 'nurse'];
+  var pscale = 3;
+  var oc = document.createElement('canvas');
+  oc.width = 16; oc.height = 32;
+  var octx = oc.getContext('2d');
+  octx.imageSmoothingEnabled = false;
+  for (var p = 0; p < people.length; p++) {
+    var px = (p % 7) * 104 + 10;
+    var ppy = py + 14 + Math.floor(p / 7) * 124;
+    PM.rect(px, ppy, 100, 116, '#c6cfae');
+    for (var f = 0; f < 2; f++) {
+      octx.clearRect(0, 0, 16, 32);
+      PM.art.person(octx, people[p], 0, 16, 'down', f);
+      ctx.drawImage(oc, 0, 0, 16, 32, px + 4 + f * 46, ppy + 4, 16 * pscale, 32 * pscale);
+    }
+    ctx.fillStyle = PM.C.ink;
+    ctx.font = 'bold 10px monospace';
+    ctx.fillText(people[p], px + 4, ppy + 108);
+  }
+  }
+  render();
+  if (PM.art.loadSprites) PM.art.loadSprites().then(render);
+})();
+</script>
+</body>
+</html>

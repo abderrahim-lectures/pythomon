@@ -1,0 +1,13 @@
+import './core.js';
+import './art.js';
+import './data.js';
+import './challenges.js';
+import './ai.js';
+import './ui.js';
+import './pc.js';
+import './py.js';
+import './battle.js';
+import './world.js';
+import './main.js';
+import './styles/fonts.css';
+import './styles/game.css';

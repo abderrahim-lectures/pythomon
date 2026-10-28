@@ -1,0 +1,13 @@
+The sprite images in this folder are from PMDCollab/SpriteCollab and are
+licensed under the Creative Commons Attribution-NonCommercial 4.0
+International licence.
+
+Licence text: https://creativecommons.org/licenses/by-nc/4.0/legalcode
+Source: https://github.com/PMDCollab/SpriteCollab
+
+You may share and adapt these images for non-commercial purposes, provided you
+give appropriate credit, link to the licence, and say what changes were made.
+See CREDITS.md for the credits and the list of changes.
+
+Pokémon and Pokémon character names are trademarks of Nintendo, Creatures Inc.
+and GAME FREAK Inc.
