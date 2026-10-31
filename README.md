@@ -34,6 +34,8 @@ npm test           # unit tests
 npm run test:e2e   # end-to-end tests
 ```
 
+See [docs/REPRODUCTION.md](docs/REPRODUCTION.md) for the full setup, test, question-bank and deploy steps.
+
 ## Play now
 
 When this repo has GitHub Pages enabled, the game is playable at

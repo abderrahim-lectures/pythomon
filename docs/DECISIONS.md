@@ -107,3 +107,10 @@ Decision 19: calm walk and water animation. Serves instruction 5. The player
 walk frame changes every 8 ticks, so one step shows two poses instead of four.
 NPC walk frames change every 280 ticks. Water highlights move every 200 ticks,
 water edge sparkles every 240 ticks, and the lake glint every 320 ticks.
+
+Decision 20: One checked bank generator. Serves instruction 10. `npm run
+generate:bank` validates `src/ai-bank.json`: it checks the required fields
+for each kind, rejects duplicate prompts and reports errors as `question N:
+message`. `--write` rewrites the file in standard two-space JSON only after
+a valid run. The command exits 1 on a bank error and 2 on an unknown
+argument.
