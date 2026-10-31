@@ -241,6 +241,58 @@
     blk(x + 2, y + 2, 12, 12, '#8f613b');
   };
 
+  T['b'] = function (x, y) {
+    fill(x, y, '#d8b982');
+    blk(x + 1, y + 1, 14, 14, '#f4f0e4');
+    blk(x + 2, y + 2, 12, 5, '#a8c4e4');
+    blk(x + 3, y + 3, 10, 2, '#c4daf0');
+    blk(x + 1, y + 12, 14, 3, '#c9a970');
+    blk(x + 1, y + 1, 1, 14, '#b08a5a');
+    blk(x + 14, y + 1, 1, 14, '#b08a5a');
+  };
+
+  T['k'] = function (x, y) {
+    fill(x, y, '#8a5c34');
+    blk(x + 1, y + 1, 14, 14, '#5a3a24');
+    blk(x + 2, y + 2, 12, 5, '#a97742');
+    blk(x + 2, y + 9, 12, 5, '#a97742');
+    var cols = ['#d6473c', '#4a9fd8', '#d8a63b', '#5cc46a'];
+    for (var i = 0; i < 4; i++) {
+      blk(x + 3 + i * 3, y + 3, 2, 3, cols[i]);
+      blk(x + 3 + i * 3, y + 10, 2, 3, cols[(i + 2) % 4]);
+    }
+  };
+
+  T['p'] = function (x, y) {
+    fill(x, y, '#d8b982');
+    blk(x + 4, y + 10, 8, 5, '#b06a3c');
+    blk(x + 4, y + 10, 8, 1, '#c97f4c');
+    blk(x + 7, y + 4, 2, 6, '#3f8a33');
+    blk(x + 4, y + 5, 3, 3, '#4c9c3a');
+    blk(x + 9, y + 3, 3, 4, '#4c9c3a');
+    blk(x + 3, y + 3, 2, 2, '#5fae45');
+    blk(x + 10, y + 6, 3, 2, '#5fae45');
+    blk(x + 6, y + 2, 1, 2, '#6fbd52');
+  };
+
+  T['c'] = function (x, y) {
+    fill(x, y, '#d8b982');
+    blk(x + 1, y + 7, 14, 7, '#8a5c34');
+    blk(x + 2, y + 8, 12, 4, '#a97742');
+    blk(x + 4, y + 2, 8, 6, '#2a3346');
+    blk(x + 5, y + 3, 6, 4, '#4a9fd8');
+    blk(x + 6, y + 4, 3, 1, '#d8f2fb');
+    blk(x + 5, y + 8, 6, 1, '#5a3a24');
+  };
+
+  T['m'] = function (x, y) {
+    fill(x, y, '#d8b982');
+    blk(x + 1, y + 3, 14, 10, '#b06a6a');
+    blk(x + 2, y + 4, 12, 8, '#c98686');
+    blk(x + 3, y + 5, 10, 1, '#e0b0b0');
+    blk(x + 3, y + 10, 10, 1, '#a85a5a');
+  };
+
   A.drawTile = function (ch, x, y, t) {
     var fn = T[ch] || T['.'];
     fn(x, y, t);
@@ -279,7 +331,7 @@
     }
   };
 
-  A.solid = { '#': 1, '~': 1, '|': 1, 'r': 1, 'w': 1, 'S': 1, 'T': 1, ':': 1, 'R': 1 };
+  A.solid = { '#': 1, '~': 1, '|': 1, 'r': 1, 'w': 1, 'S': 1, 'T': 1, ':': 1, 'R': 1, 'b': 1, 'k': 1, 'p': 1, 'c': 1 };
 
   /* ---------------- people ---------------- */
   // 16x16, digits index the palette, '.' is transparent
