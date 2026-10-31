@@ -25,6 +25,7 @@ grouped into instructions.
 | 12 | 10-26 17:24 | "Canvas pixel PC/challenge UI, the question prompts must be in the game not in console" |
 | 13 | 10-26 17:24 | "Canvas pixel PC/challenge UI, the question prompts must be in the game not in console/part of the game" |
 | 14 | 10-26 17:27 | "TRAINER PC / INT · APPRENTICE / What does this print? see the window is out of the game not part of the stroyline" |
+| 15 | 10-28 23:21 | "write docs/REPRODUCTION.md and related files" |
 
 ## Owner follow-up, 2026-10-27
 

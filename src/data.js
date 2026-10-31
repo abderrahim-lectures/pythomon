@@ -283,7 +283,8 @@
       { x: 4, y: 8, to: 'verdant', tx: 5, ty: 6, dir: 'down' }
     ],
     objects: [
-      { type: 'npc', id: 'mom', sprite: 'mom', x: 2, y: 4, dir: 'down', talk: 'mom' }
+      { type: 'npc', id: 'mom', sprite: 'mom', x: 2, y: 4, dir: 'down', talk: 'mom' },
+      { type: 'npc', id: 'creature', sprite: 'creature', x: 7, y: 5, dir: 'left', talk: 'creature_home' }
     ]
   };
 
@@ -589,6 +590,22 @@
     PM.healParty();
     PM.audio.heal();
     await PM.say(['MOM: I patched up your team.']);
+  };
+
+  S.creature_home = async function () {
+    await PM.say([
+      'CREATURE: You found me. I am a py creature.',
+      'CREATURE: Every value has a type in Python.',
+      'CREATURE: INT counts. STR talks. LIST keeps order.',
+      'CREATURE: DICT keeps names. BOOL says true or false.',
+      'CREATURE: INT beats BOOL. BOOL beats LIST.',
+      'CREATURE: LIST beats DICT. DICT beats STR. STR beats INT.'
+    ]);
+    if (!PM.flag('creature_gift')) {
+      PM.give('potion', 1);
+      PM.setFlag('creature_gift');
+      await PM.say(['CREATURE: Take this potion. You will need it.']);
+    }
   };
 
   S.kid_town = async function () {
