@@ -10,7 +10,7 @@ works offline.
 
 Decision 2: curriculum order. Serves instruction 10. The topic order is
 numbers, decisions, text, lists, dicts, classes. It sits in one list in
-js/challenges.js and matches the gym order in SYLLABUS.md.
+js/challenges.js. The gym order repeats the core topics for practice.
 
 Decision 3: ranks. Serves instruction 10. A topic can demand a minimum rank.
 The ranks are novice, apprentice and adept. The class topic demands the
@@ -114,3 +114,9 @@ for each kind, rejects duplicate prompts and reports errors as `question N:
 message`. `--write` rewrites the file in standard two-space JSON only after
 a valid run. The command exits 1 on a bank error and 2 on an unknown
 argument.
+
+Decision 21: eight gyms and two houses. Serves instruction 10. Five leaders
+repeat the core topics for practice: DICTUS and BOOLE in BYTEBURG, SLICER in
+VERDANT, LOOPER on ROUTE 1, VECTOR on ROUTE 2. Each leader has a badge gate,
+so the badges come in a fixed order. BYTE HOUSE and MOVE HOUSE hold a keeper
+and a child; the keeper gives one gift, once.

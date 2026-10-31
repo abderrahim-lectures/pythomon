@@ -560,9 +560,14 @@
     PM.text(PM.state.name, 10, 64, PM.C.ink);
     PM.text('TIER ' + PM.state.tier.toUpperCase().slice(0, 3), 10, 74, PM.C.grey);
     PM.text('BADGES', 10, 87, PM.C.grey);
-    var flags = [['badge1', '#e0603f'], ['badge2', '#4a9fd8'], ['badge3', '#d8a63b']];
+    var flags = [
+      ['badge1', '#e0603f'], ['badge2', '#4a9fd8'],
+      ['badge3', '#d8a63b'], ['badge4', '#9b6cd8'],
+      ['badge5', '#5cc46a'], ['badge6', '#4a9fd8'],
+      ['badge7', '#d8a63b'], ['badge8', '#e0603f']
+    ];
     flags.forEach(function (b, i) {
-      var x = 10 + i * 12, y = 97;
+      var x = 10 + (i % 4) * 12, y = 96 + Math.floor(i / 4) * 10;
       if (PM.flag(b[0])) {
         PM.rect(x, y, 8, 8, b[1]);
         PM.rect(x, y, 8, 1, PM.C.outline);
@@ -571,8 +576,8 @@
         PM.rect(x, y, 8, 8, '#c9c9b8');
       }
     });
-    PM.text('TEAM ' + PM.state.party.length + '/6', 10, 114, PM.C.grey);
-    PM.text('CAP ' + PM.state.capsules + '  POT ' + PM.state.potions, 10, 124, PM.C.grey, 6);
+    PM.text('TEAM ' + PM.state.party.length + '/6', 10, 115, PM.C.grey);
+    PM.text('CAP ' + PM.state.capsules + '  POT ' + PM.state.potions, 10, 125, PM.C.grey, 6);
   }
 
   /* ---------------- ending ---------------- */

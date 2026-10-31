@@ -140,7 +140,12 @@
   var BADGE = {
     bitford: { flag: 'badge1', sprite: 'int', name: 'BIT BADGE' },
     quotia: { flag: 'badge2', sprite: 'str', name: 'WORD BADGE' },
-    brackett: { flag: 'badge3', sprite: 'list', name: 'STACK BADGE' }
+    brackett: { flag: 'badge3', sprite: 'list', name: 'STACK BADGE' },
+    dictus: { flag: 'badge4', sprite: 'dict', name: 'KEY BADGE' },
+    boole: { flag: 'badge5', sprite: 'bool', name: 'TRUTH BADGE' },
+    slicer: { flag: 'badge6', sprite: 'str', name: 'SLICE BADGE' },
+    looper: { flag: 'badge7', sprite: 'list', name: 'LOOP BADGE' },
+    vector: { flag: 'badge8', sprite: 'int', name: 'CORE BADGE' }
   };
 
   function buildGym() {

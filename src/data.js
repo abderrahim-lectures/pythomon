@@ -173,7 +173,7 @@
       after: ['REX: I am going to beat every gym before you.']
     },
     bitford: {
-      name: 'BITFORD', sprite: 'int', topic: 'int', leader: true,
+      name: 'BITFORD', sprite: 'int', topic: 'int', leader: true, needs: 0,
       team: [{ sp: 'zeroling', lv: 8 }, { sp: 'intiger', lv: 10 }],
       intro: ['BITFORD: I count every trainer who walks in.',
               'BITFORD: You are number forty-two. Let us see if you add up.'],
@@ -181,7 +181,7 @@
       after: ['BITFORD: The BIT BADGE is yours. INT types will obey you now.']
     },
     quotia: {
-      name: 'QUOTIA', sprite: 'str', topic: 'str', leader: true,
+      name: 'QUOTIA', sprite: 'str', topic: 'str', leader: true, needs: 3,
       team: [{ sp: 'striggle', lv: 14 }, { sp: 'strigor', lv: 16 }],
       intro: ['QUOTIA: Words are the first program.',
                'QUOTIA: Show me you can hold a string without dropping it.'],
@@ -189,12 +189,52 @@
       after: ['QUOTIA: Team Traceback came through here. They took the shard.']
     },
     brackett: {
-      name: 'BRACKETT', sprite: 'list', topic: 'list', leader: true,
+      name: 'BRACKETT', sprite: 'list', topic: 'list', leader: true, needs: 3,
       team: [{ sp: 'listle', lv: 20 }, { sp: 'listrix', lv: 22 }],
       intro: ['BRACKETT: Everything in my gym is in order.',
                'BRACKETT: Break the order and you break me.'],
       win: ['BRACKETT: You kept it all in one piece. The STACK BADGE is yours.'],
       after: ['BRACKETT: Null went north. He took every shard but one.']
+    },
+    dictus: {
+      name: 'DICTUS', sprite: 'dict', topic: 'dict', leader: true, needs: 1,
+      team: [{ sp: 'curly', lv: 10 }, { sp: 'dictling', lv: 12 }],
+      intro: ['DICTUS: Every name in my gym opens a door.',
+              'DICTUS: Find the key, or the door stays shut.'],
+      win: ['DICTUS: You found every key. The KEY BADGE is yours.'],
+      after: ['DICTUS: Null hides his plans in a dict. Good luck reading it.']
+    },
+    boole: {
+      name: 'BOOLE', sprite: 'bool', topic: 'bool', leader: true, needs: 2,
+      team: [{ sp: 'bitty', lv: 14 }, { sp: 'booleon', lv: 16 }],
+      intro: ['BOOLE: Two answers exist here. True, or False.',
+              'BOOLE: There is no maybe in my gym.'],
+      win: ['BOOLE: True. You win. The TRUTH BADGE is yours.'],
+      after: ['BOOLE: A clean condition beats a clever one.']
+    },
+    slicer: {
+      name: 'SLICER', sprite: 'str', topic: 'str', leader: true, needs: 5,
+      team: [{ sp: 'strigor', lv: 19 }, { sp: 'listrix', lv: 20 }],
+      intro: ['SLICER: I take what I need and leave the rest.',
+              'SLICER: Show me your edge.'],
+      win: ['SLICER: Clean cut. The SLICE BADGE is yours.'],
+      after: ['SLICER: Start and stop. Never the last index.']
+    },
+    looper: {
+      name: 'LOOPER', sprite: 'list', topic: 'list', leader: true, needs: 6,
+      team: [{ sp: 'listrix', lv: 21 }, { sp: 'dictling', lv: 22 }],
+      intro: ['LOOPER: One step, then the next, then the next.',
+              'LOOPER: Break the loop and you break me.'],
+      win: ['LOOPER: You closed the loop. The LOOP BADGE is yours.'],
+      after: ['LOOPER: Always know where the loop stops.']
+    },
+    vector: {
+      name: 'VECTOR', sprite: 'int', topic: 'int', leader: true, needs: 7,
+      team: [{ sp: 'intiger', lv: 23 }, { sp: 'biginti', lv: 25 }],
+      intro: ['VECTOR: I move numbers in a straight line.',
+              'VECTOR: Keep pace, or fall behind.'],
+      win: ['VECTOR: You kept pace. The CORE BADGE is yours.'],
+      after: ['VECTOR: Eight badges. The tower is waiting.']
     },
     grunt1: {
       name: 'GRUNT', sprite: 'grunt', topic: 'bool',
@@ -244,9 +284,9 @@
       '#..,,,,..==...F....#',
       '#..,,,,..==........#',
       '#........==...~~~~.#',
-      '#..F.....==...~~~~.#',
-      '#........==...~~~~.#',
-      '#..,,,,..==........#',
+      '#.rrrrr..==...~~~~.#',
+      '#.rrrrr..==...~~~~.#',
+      '#.wwDww..==........#',
       '#........==........#',
       '#########..#########'
     ],
@@ -254,7 +294,8 @@
       { x: 9, y: 17, to: 'route1', tx: 9, ty: 17, dir: 'up' },
       { x: 10, y: 17, to: 'route1', tx: 10, ty: 17, dir: 'up' },
       { x: 5, y: 4, to: 'home', tx: 5, ty: 7, dir: 'up' },
-      { x: 15, y: 4, to: 'lab', tx: 7, ty: 8, dir: 'up' }
+      { x: 15, y: 4, to: 'lab', tx: 7, ty: 8, dir: 'up' },
+      { x: 4, y: 15, gym: 'slicer', tx: 6, ty: 7, dir: 'up' }
     ],
     objects: [
       { type: 'npc', id: 'kid', sprite: 'kid', x: 15, y: 9, dir: 'left', talk: 'kid_town' },
@@ -285,6 +326,56 @@
     objects: [
       { type: 'npc', id: 'mom', sprite: 'mom', x: 2, y: 4, dir: 'down', talk: 'mom' },
       { type: 'npc', id: 'creature', sprite: 'creature', x: 7, y: 5, dir: 'left', talk: 'creature_home' }
+    ]
+  };
+
+  D.MAPS.house_byte = {
+    name: 'BYTE HOUSE',
+    indoor: true,
+    w: 10, h: 10,
+    tiles: [
+      '||||||||||',
+      '|________|',
+      '|__T_____|',
+      '|________|',
+      '|________|',
+      '|________|',
+      '|________|',
+      '|________|',
+      '|___D____|',
+      '||||||||||'
+    ],
+    warps: [
+      { x: 4, y: 8, to: 'byteburg', tx: 5, ty: 5, dir: 'down' }
+    ],
+    objects: [
+      { type: 'npc', id: 'bytekeeper', sprite: 'prof', x: 2, y: 4, dir: 'down', talk: 'byte_keeper' },
+      { type: 'npc', id: 'bytekid', sprite: 'kid', x: 7, y: 5, dir: 'left', talk: 'byte_kid' }
+    ]
+  };
+
+  D.MAPS.house_move = {
+    name: 'MOVE HOUSE',
+    indoor: true,
+    w: 10, h: 10,
+    tiles: [
+      '||||||||||',
+      '|________|',
+      '|__T_____|',
+      '|________|',
+      '|________|',
+      '|________|',
+      '|________|',
+      '|________|',
+      '|___D____|',
+      '||||||||||'
+    ],
+    warps: [
+      { x: 4, y: 8, to: 'indentia', tx: 14, ty: 9, dir: 'down' }
+    ],
+    objects: [
+      { type: 'npc', id: 'mover', sprite: 'prof', x: 2, y: 4, dir: 'down', talk: 'move_mover' },
+      { type: 'npc', id: 'movekid', sprite: 'kid', x: 7, y: 5, dir: 'left', talk: 'move_kid' }
     ]
   };
 
@@ -355,9 +446,9 @@
       '#..,,,,..==..,,,,..#',
       '#..,,,,..==..,,,,..#',
       '#........==........#',
-      '#........==........#',
-      '#..R.....==.....R..#',
-      '#........==........#',
+      '#........==.rrrrr..#',
+      '#..R.....==.rrrrr..#',
+      '#........==.wwDww..#',
       '#..,,,,..==..,,,,..#',
       '#..,,,,..==..,,,,..#',
       '#........==........#',
@@ -369,7 +460,8 @@
       { x: 9, y: 18, to: 'verdant', tx: 9, ty: 16, dir: 'up' },
       { x: 10, y: 18, to: 'verdant', tx: 10, ty: 16, dir: 'up' },
       { x: 9, y: 0, to: 'byteburg', tx: 9, ty: 1, dir: 'up' },
-      { x: 10, y: 0, to: 'byteburg', tx: 10, ty: 1, dir: 'up' }
+      { x: 10, y: 0, to: 'byteburg', tx: 10, ty: 1, dir: 'up' },
+      { x: 14, y: 12, gym: 'looper', tx: 6, ty: 7, dir: 'up' }
     ],
     objects: [
       { type: 'npc', id: 'rex1', sprite: 'rival', x: 9, y: 7, dir: 'down', sight: 3, talk: 'rex_route' },
@@ -393,14 +485,14 @@
       '#..rrrr..==..rrrrr.#',
       '#..wwDw..==..wwDww.#',
       '#........==........#',
-      '#..F.....==.....F..#',
-      '#........==........#',
-      '#..S.....==........#',
+      '#..F.....==.rrrrr..#',
+      '#........==.rrrrr..#',
+      '#..S.....==.wwDww..#',
       '#........==........#',
       '#..,,,,..==........#',
-      '#..,,,,..==..rrrrr.#',
-      '#........==..rrrrr.#',
-      '#..F.....==..wwDww.#',
+      '#.rrrrr..==..rrrrr.#',
+      '#.rrrrr..==..rrrrr.#',
+      '#.wwDww..==..wwDww.#',
       '#........==........#',
       '#........==........#',
       '#........==........#',
@@ -411,7 +503,10 @@
       { x: 10, y: 0, to: 'route1', tx: 10, ty: 1, dir: 'down' },
       { x: 9, y: 17, to: 'route2', tx: 9, ty: 17, dir: 'up' },
       { x: 10, y: 17, to: 'route2', tx: 10, ty: 17, dir: 'up' },
+      { x: 5, y: 4, to: 'house_byte', tx: 4, ty: 7, dir: 'up' },
       { x: 15, y: 4, to: 'center', tx: 5, ty: 6, dir: 'up' },
+      { x: 14, y: 8, gym: 'dictus', tx: 6, ty: 7, dir: 'up' },
+      { x: 4, y: 13, gym: 'boole', tx: 6, ty: 7, dir: 'up' },
       { x: 15, y: 13, gym: 'bitford', tx: 6, ty: 7, dir: 'up' }
     ],
     objects: [
@@ -450,9 +545,9 @@
       '#........==........#',
       '#..,,,,..==..,,,,..#',
       '#..,,,,..==..,,,,..#',
-      '#........==........#',
-      '#..R.....==.....R..#',
-      '#........==........#',
+      '#........==.rrrrr..#',
+      '#..R.....==.rrrrr..#',
+      '#........==.wwDww..#',
       '#..,,,,..==..,,,,..#',
       '#..,,,,..==..,,,,..#',
       '#........==........#',
@@ -469,7 +564,8 @@
       { x: 9, y: 17, to: 'byteburg', tx: 9, ty: 1, dir: 'down' },
       { x: 10, y: 17, to: 'byteburg', tx: 10, ty: 1, dir: 'down' },
       { x: 9, y: 0, to: 'indentia', tx: 9, ty: 16, dir: 'up' },
-      { x: 10, y: 0, to: 'indentia', tx: 10, ty: 16, dir: 'up' }
+      { x: 10, y: 0, to: 'indentia', tx: 10, ty: 16, dir: 'up' },
+      { x: 14, y: 6, gym: 'vector', tx: 6, ty: 7, dir: 'up' }
     ],
     objects: [
       { type: 'npc', id: 'grunt1', sprite: 'grunt', x: 9, y: 9, dir: 'down', sight: 4, talk: 'grunt1' },
@@ -493,9 +589,9 @@
       '#..rrrr..==..rrrrr.#',
       '#..wwDw..==..wwDww.#',
       '#........==........#',
-      '#..F.....==.....F..#',
-      '#........==........#',
-      '#..S.....==........#',
+      '#..F.....==.rrrrr..#',
+      '#........==.rrrrr..#',
+      '#..S.....==.wwDww..#',
       '#........==........#',
       '#..,,,,..==..~~~~..#',
       '#..,,,,..==..~~~~..#',
@@ -511,6 +607,7 @@
       { x: 10, y: 17, to: 'route2', tx: 10, ty: 1, dir: 'down' },
       { x: 5, y: 4, to: 'center', tx: 5, ty: 6, dir: 'up' },
       { x: 15, y: 4, gym: 'quotia', tx: 6, ty: 7, dir: 'up' },
+      { x: 14, y: 8, to: 'house_move', tx: 4, ty: 7, dir: 'up' },
       { x: 5, y: 15, gym: 'brackett', tx: 6, ty: 7, dir: 'up' },
       { x: 15, y: 15, to: 'tower', tx: 6, ty: 8, dir: 'up' }
     ],
@@ -608,6 +705,48 @@
     }
   };
 
+  S.byte_keeper = async function () {
+    await PM.say([
+      'KEEPER: This house keeps the first bytes.',
+      'KEEPER: Every int is a whole number.',
+      'KEEPER: // drops the decimal. % keeps the rest.'
+    ]);
+    if (!PM.flag('byte_gift')) {
+      PM.give('potion', 1);
+      PM.setFlag('byte_gift');
+      await PM.say(['KEEPER: Take a potion for the road.']);
+    }
+  };
+
+  S.byte_kid = async function () {
+    await PM.say([
+      'KID: True is one. False is zero.',
+      'KID: BOOL beats LIST, but INT beats BOOL.',
+      'KID: The ring never ends.'
+    ]);
+  };
+
+  S.move_mover = async function () {
+    await PM.say([
+      'MOVER: Lists keep their order. Slices keep a part.',
+      'MOVER: s[1:4] starts at one and stops before four.',
+      'MOVER: Negative indexes count from the end.'
+    ]);
+    if (!PM.flag('move_gift')) {
+      PM.give('capsule', 1);
+      PM.setFlag('move_gift');
+      await PM.say(['MOVER: Take a capsule. You will catch more with it.']);
+    }
+  };
+
+  S.move_kid = async function () {
+    await PM.say([
+      'KID: A loop visits every item once.',
+      'KID: for x in [1, 2, 3] runs three times.',
+      'KID: Stop before the list runs out.'
+    ]);
+  };
+
   S.kid_town = async function () {
     await PM.say(['KID: Wild pythomon live in tall grass.',
                   'KID: Walk through it and one may jump out.',
@@ -659,19 +798,29 @@
                     'ADA: ESC leaves a question without losing your turn.']);
       return;
     }
-    if (!PM.flag('badge1')) {
+    var got = 0;
+    for (var i = 1; i <= 8; i++) { if (PM.flag('badge' + i)) got++; }
+    if (got === 0) {
       await PM.say(['ADA: Bitford is the first gym. He uses INT.',
                     'ADA: INT beats BOOL, but STR beats INT.',
                     'ADA: In battle, every move asks you a Python question.']);
       return;
     }
-    if (!PM.flag('badge3')) {
-      await PM.say(['ADA: Two gyms in INDENTIA are still waiting.',
-                    'ADA: QUOTIA tests STR. BRACKETT tests LIST.',
+    if (got < 3) {
+      await PM.say(['ADA: BYTEBURG has three gyms.',
+                    'ADA: BITFORD tests INT. DICTUS tests DICT. BOOLE tests BOOL.',
+                    'ADA: Earn those three, then head north.']);
+      return;
+    }
+    if (got < 8) {
+      await PM.say(['ADA: ' + got + ' badges. ' + (8 - got) + ' more are waiting.',
+                    'ADA: QUOTIA and BRACKETT are in INDENTIA.',
+                    'ADA: SLICER is in VERDANT. LOOPER is on ROUTE 1.',
+                    'ADA: VECTOR waits on ROUTE 2.',
                     'ADA: Team Traceback is stealing Source Shards.']);
       return;
     }
-    await PM.say(['ADA: Three badges. You are ready for the tower.',
+    await PM.say(['ADA: Eight badges. You are ready for the tower.',
                   'ADA: Null is at the top. Do not let him reach the Source.',
                   'ADA: And remember: a loop with no exit is not a program.']);
   };
@@ -742,7 +891,7 @@
     }
     await PM.say(['GRUNT: This tower is closed.',
                   'GRUNT: Null does not take visitors.',
-                  'GRUNT: Especially not trainers with three badges.']);
+                  'GRUNT: Especially not trainers with eight badges.']);
     var r = await PM.battle('trainer', 'grunt2');
     if (r === 'win') {
       PM.setFlag('beat_grunt2');
@@ -776,7 +925,12 @@
   var BADGE = {
     bitford: { flag: 'badge1', name: 'BIT BADGE', color: 'INT' },
     quotia: { flag: 'badge2', name: 'WORD BADGE', color: 'STR' },
-    brackett: { flag: 'badge3', name: 'STACK BADGE', color: 'LIST' }
+    brackett: { flag: 'badge3', name: 'STACK BADGE', color: 'LIST' },
+    dictus: { flag: 'badge4', name: 'KEY BADGE', color: 'DICT' },
+    boole: { flag: 'badge5', name: 'TRUTH BADGE', color: 'BOOL' },
+    slicer: { flag: 'badge6', name: 'SLICE BADGE', color: 'STR' },
+    looper: { flag: 'badge7', name: 'LOOP BADGE', color: 'LIST' },
+    vector: { flag: 'badge8', name: 'CORE BADGE', color: 'INT' }
   };
 
   S.gym_leader = async function () {
@@ -791,6 +945,13 @@
     if (PM.flag(bd.flag)) {
       await PM.say([tr.name + ': You already carry the ' + bd.name + '.',
                     tr.name + ': ' + tr.after[0].split(': ').slice(1).join(': ')]);
+      return;
+    }
+    var got = 0;
+    for (var i = 1; i <= 8; i++) { if (PM.flag('badge' + i)) got++; }
+    if (tr.needs && got < tr.needs) {
+      await PM.say([tr.name + ': Not yet. Earn ' + tr.needs + ' badges first.',
+                    tr.name + ': Then come back and we will talk.']);
       return;
     }
     await PM.say(tr.intro);
@@ -817,7 +978,17 @@
       quotia: ['TRAINER: STR is the type of text.',
                'TRAINER: Slices stop before the end. "abc"[0:2] is "ab".'],
       brackett: ['TRAINER: LIST is the type of order.',
-                 'TRAINER: append adds one item. + joins two lists.']
+                 'TRAINER: append adds one item. + joins two lists.'],
+      dictus: ['TRAINER: DICT maps keys to values.',
+               'TRAINER: d["k"] raises KeyError when k is missing.'],
+      boole: ['TRAINER: BOOL has two values: True and False.',
+              'TRAINER: and needs both sides true. or needs one.'],
+      slicer: ['TRAINER: A slice picks a range.',
+               'TRAINER: s[1:3] stops before index three.'],
+      looper: ['TRAINER: A for loop visits each item once.',
+               'TRAINER: range(3) gives 0, 1, 2.'],
+      vector: ['TRAINER: A vector is a list of numbers.',
+               'TRAINER: zip pairs two lists item by item.']
     };
     await PM.say(tips[gym.leader] || tips.bitford);
   };
