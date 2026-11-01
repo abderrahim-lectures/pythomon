@@ -795,7 +795,7 @@
                     'ADA: The first gym is in BYTEBURG, south of here.',
                     'ADA: Bitford uses INT. Check the match-up before you go.',
                     'ADA: Wrong answers show the answer and why.',
-                    'ADA: ESC leaves a question without losing your turn.']);
+                    'ADA: Leaving a question does not cost your turn.']);
       return;
     }
     var got = 0;

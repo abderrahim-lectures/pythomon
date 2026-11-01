@@ -586,10 +586,11 @@
   }
 
   function hint() {
-    if (S.phase === 'feedback') return 'ENTER OK · B BACK';
-    if (S.kind === 'mc') return 'UP/DOWN · ENTER OK';
-    if (S.kind === 'fill') return 'ENTER SEND · ESC';
-    return S.running ? 'RUNNING...' : 'CTRL+ENTER · ESC';
+    var touch = PM.isTouch();
+    if (S.phase === 'feedback') return touch ? 'A OK · B BACK' : 'ENTER OK · B BACK';
+    if (S.kind === 'mc') return touch ? 'UP/DOWN · A OK' : 'UP/DOWN · ENTER OK';
+    if (S.kind === 'fill') return touch ? 'A SEND · B BACK' : 'ENTER SEND · ESC';
+    return S.running ? 'RUNNING...' : touch ? 'A RUNS · B BACK' : 'CTRL+ENTER · ESC';
   }
 
   function tri(x, y) {
@@ -631,7 +632,7 @@
     else if (S.kind === 'mc') drawMC();
     else if (S.kind === 'fill') drawFill();
     else drawCode();
-    PM.text(hint(), 5, 129, C.grey, FONT_SM);
+    PM.textCenter(hint(), 80, 129, C.grey, FONT_SM);
   };
 
   function drawMC() {
@@ -869,6 +870,7 @@
       caretCol: lay.caretCol,
       wrapped: (S.wrapped || []).slice(),
       title: S.title,
+      hint: hint(),
       off: lay.off,
       maxRows: lay.maxRows,
       rowsTotal: lay.rowsTotal

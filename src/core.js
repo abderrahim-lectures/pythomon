@@ -33,6 +33,9 @@ window.PM = window.PM || {};
   PM.rand = function (n) { return Math.floor(Math.random() * n); };
   PM.pick = function (arr) { return arr[Math.floor(Math.random() * arr.length)]; };
   PM.chance = function (p) { return Math.random() < p; };
+  PM.isTouch = function () {
+    return (window.matchMedia && window.matchMedia('(pointer: coarse)').matches) || window.innerWidth < 760;
+  };
 
   PM.hash = function (str) {
     var h = 2166136261;

@@ -352,6 +352,10 @@ body {
 
 /* --------------------------------------------------------------- responsive */
 
+@media (pointer: coarse) {
+  .console-foot { display: none; }
+}
+
 @media (max-width: 600px) {
   body { padding: 10px 8px 14px; }
   .console { padding: 12px 12px 12px; border-radius: 24px 24px 44px 24px; }
