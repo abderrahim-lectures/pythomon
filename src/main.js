@@ -745,10 +745,14 @@
     document.documentElement.style.setProperty('--scale', String(s));
   }
 
-  function boot() {
+  function drawLoading() {
+    PM.rect(0, 0, 160, 144, '#071f1e');
+    PM.textCenter('LOADING', 80, 68, '#f8f0cf');
+  }
+
+  async function boot() {
     PM.bindInput();
     PM.bindTouch();
-    if (PM.art.loadSprites) PM.art.loadSprites();
     resize();
     window.addEventListener('resize', resize);
     try {
@@ -762,6 +766,8 @@
       });
     }
     PM.state = null;
+    drawLoading();
+    if (PM.art.loadSprites) await PM.art.loadSprites();
     // debug entries used for screenshots and testing
     var q = new URLSearchParams(location.search);
     var dbg = q.get('debug');
