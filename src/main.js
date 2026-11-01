@@ -248,7 +248,21 @@
       tierState.idx = 0;
       PM.audio.select();
     } else {
-      await PM.say([
+      var help = PM.isTouch() ? [
+        'MOVE: THE D-PAD.',
+        'A: OK.  B: BACK.',
+        'START: MENU.',
+        'SOUND: TAP IT.',
+        'BATTLE MOVES ASK PYTHON QUESTIONS.',
+        'A RIGHT ANSWER LANDS THE MOVE.',
+        'A WRONG ANSWER SHOWS WHY.',
+        'CHOOSE: UP/DOWN, THEN A.',
+        'FILL: TYPE. A OK.',
+        'TYPE CODE. A RUNS.',
+        'B LEAVES A QUESTION.',
+        'LEAVING DOES NOT COST YOUR TURN.',
+        'READ THE WHY AFTER EVERY ANSWER.'
+      ] : [
         'MOVE: ARROWS OR WASD.',
         'A: Z OR ENTER.  B: X OR ESC.',
         'MENU: TAB.  SOUND: M.',
@@ -261,7 +275,8 @@
         'ESC LEAVES A QUESTION.',
         'LEAVING DOES NOT COST YOUR TURN.',
         'READ THE WHY AFTER EVERY ANSWER.'
-      ]);
+      ];
+      await PM.say(help);
       title.started = false;
     }
   }
@@ -351,7 +366,7 @@
     });
 
     PM.rect(6, 121, 148, 18, '#101820');
-    PM.textCenter('MOVE: ARROWS', 80, 123, '#a8e0b0');
+    PM.textCenter(PM.isTouch() ? 'MOVE: D-PAD' : 'MOVE: ARROWS', 80, 123, '#a8e0b0');
     PM.textCenter('A: ADD   B: DEL', 80, 132, '#a8e0b0');
   }
 
@@ -736,7 +751,7 @@
 
   /* ---------------- scale ---------------- */
   function resize() {
-    var touch = window.matchMedia('(pointer: coarse)').matches || window.innerWidth < 760;
+    var touch = PM.isTouch();
     var chrome = touch ? 290 : 270;
     var maxW = window.innerWidth - (touch ? 40 : 96);
     var maxH = window.innerHeight - chrome;
