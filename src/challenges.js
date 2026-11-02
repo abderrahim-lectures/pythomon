@@ -193,8 +193,11 @@
          ['none', 'None', 'Error', 'b'], 0, 'The second argument is returned when the key is absent.'),
       mc('dict-d3', 'dict', 'adept', 'What does this print?', 'print(sorted({"b": 2, "a": 1}))',
          ["['b', 'a']", "['a', 'b']", "['a', 1]", "['b', 2]"], 1, 'sorted() over a dict returns its keys in order.'),
+      // Test values travel to Python as JSON, so expectation dict keys are
+      // always strings. Invert a dict whose values are strings so the swapped
+      // keys are strings too.
       code('dict-d4', 'dict', 'adept', 'Write invert(d) that swaps keys and values.',
-           'def invert(d):\n    ____\n', [{ args: [{ a: 1, b: 2 }], expect: { 1: 'a', 2: 'b' } }],
+           'def invert(d):\n    ____\n', [{ args: [{ a: '1', b: '2' }], expect: { '1': 'a', '2': 'b' } }],
            'def invert(d):\n    return {v: k for k, v in d.items()}', 'invert', 'func'),
       code('dict-d5', 'dict', 'adept', 'Write word_count(text) that returns how often each word appears.',
            'def word_count(text):\n    ____\n', [{ args: ['a b a'], expect: { a: 2, b: 1 } }, { args: [''], expect: {} }],
@@ -273,7 +276,7 @@
            'The attribute is called name.'),
       code('cls-a4', 'class', 'apprentice', 'Make class Counter with add() adding 1 to self.n. Result = n after one add.',
            'class Counter:\n    ____\n\nc = Counter()\nc.add()\nresult = c.n',
-           [{ expect: 1 }], 'def __init__(self):\n        self.n = 0\n    def add(self):\n        self.n += 1')
+           [{ expect: 1 }], 'def __init__(self):\n    self.n = 0\ndef add(self):\n    self.n += 1')
     ],
     adept: [
       mc('cls-d1', 'class', 'adept', 'What does this print?',
@@ -284,7 +287,7 @@
          ['B', 'A', 'AB', 'Error'], 0, 'The subclass overrides the parent method.'),
       code('cls-d3', 'class', 'adept', 'Make class Stack with push(x) and pop(). Result = stack after push(1), push(2), pop().',
            'class Stack:\n    ____\n\ns = Stack()\ns.push(1)\ns.push(2)\nresult = s.pop()',
-           [{ expect: 2 }], 'def __init__(self):\n        self.items = []\n    def push(self, x):\n        self.items.append(x)\n    def pop(self):\n        return self.items.pop()')
+           [{ expect: 2 }], 'def __init__(self):\n    self.items = []\ndef push(self, x):\n    self.items.append(x)\ndef pop(self):\n    return self.items.pop()')
     ]
   };
 

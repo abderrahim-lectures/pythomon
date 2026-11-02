@@ -30,4 +30,4 @@ Person names: hero, hero2, rival, prof, mom, grunt, nurse, kid, int, str,
 list, dict, bool.
 
 Any image size works. The game scales the image to fit a 40 by 40 box for a
-beast and a 16 by 16 box for a person. Small pixel art looks best.
+beast and a 16 by 32 box for a person. Small pixel art looks best.

@@ -70,6 +70,9 @@
     var pages = [];
     arr.forEach(function (t) { pages = pages.concat(pageText(t)); });
     return new Promise(function (resolve) {
+      // Nothing to show (an empty line or an empty list): resolve at once.
+      // An empty box would leave pages[0] undefined and throw in every frame.
+      if (!pages.length) { resolve(); return; }
       U.box = { pages: pages, page: 0, chars: 0, done: false, opts: opts };
       U._sayResolve = resolve;
       U._pressedOnce = false;
@@ -85,7 +88,9 @@
 
   U.boxTick = function () {
     if (!U.box) return;
-    var full = (U.box.pages[U.box.page][0] + U.box.pages[U.box.page][1]).length;
+    var page = U.box.pages[U.box.page];
+    if (!page) { U.closeBox(); return; }
+    var full = (page[0] + page[1]).length;
     if (U.box.chars < full) {
       U.box.chars += 1;
       if (U.box.chars % 3 === 0) PM.audio.blip();
@@ -96,6 +101,7 @@
     if (!U.box) return false;
     if (k !== 'a' && k !== 'b') return true;
     var page = U.box.pages[U.box.page];
+    if (!page) { U.closeBox(); return true; }
     var full = (page[0] + page[1]).length;
     if (U.box.chars < full) {
       U.box.chars = full;
@@ -114,6 +120,7 @@
   U.drawBox = function () {
     if (!U.box) return;
     var page = U.box.pages[U.box.page];
+    if (!page) return;
     U.frame(BOX.x, BOX.y, BOX.w, BOX.h);
     var left = U.box.chars;
     for (var i = 0; i < 2; i++) {

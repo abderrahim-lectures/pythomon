@@ -233,6 +233,13 @@
 
   function onInput(e) {
     if (hiddenInput._ime || e.isComposing) return;
+    // compositionend already inserts the committed text. Some engines fire the
+    // matching input event afterwards with _ime already false, which would
+    // insert every committed character a second time.
+    if (e.inputType === 'insertCompositionText') {
+      hiddenInput.value = '';
+      return;
+    }
     if (e.inputType === 'insertLineBreak') {
       handleSpecial('Enter');
     } else if (typeof e.data === 'string') {
@@ -513,13 +520,16 @@
   function tryRun() {
     if (!S || S.kind !== 'code' || S.phase !== 'answer' || S.running) return;
     S.running = true;
+    var own = S; // the answer belongs to this session, not to whatever opens next
     PM.py.run({
       kind: S.ch.mode,
       code: S.lines.join('\n'),
       fn: S.ch.fn || '',
       tests: S.ch.tests || []
-    }).then(showCodeResult, function (err) {
-      showCodeResult({ ok: false, error: String(err) });
+    }).then(function (res) {
+      if (S === own) showCodeResult(res);
+    }, function (err) {
+      if (S === own) showCodeResult({ ok: false, error: String(err) });
     });
   }
 
@@ -544,7 +554,7 @@
     if (!fix.length) fix = ['No explanation for this question.'];
     if (!res || !res.ok) {
       var err = errorLines(res && res.error);
-      feedback(false, 'ERROR', err, fix.length <= 6 ? fix : [], useCode);
+      feedback(false, 'ERROR', err, fix, useCode);
       return;
     }
     var results = res.results || [];
@@ -766,6 +776,9 @@
   function onKey(e) {
     if (!PC.active || !S) return;
     if (hiddenInput._ime) return;
+    // A held ENTER must not answer and then dismiss the feedback panel before
+    // the explanation can be read.
+    if (e.repeat && S.phase === 'feedback') return;
     if (e.ctrlKey || e.metaKey || e.altKey) {
       if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
         e.preventDefault();
@@ -789,7 +802,9 @@
     var x = (e.clientX - r.left) * sx;
     var y = (e.clientY - r.top) * sy;
     if (S.phase === 'feedback') {
-      if (y >= 104 && S.fb) {
+      // Only the two action rows are buttons (they are drawn at y 115-126).
+      // A tap on the explanation or below the buttons must not answer.
+      if (y >= 110 && y <= 130 && x >= 6 && x <= 150 && S.fb) {
         var fi = Math.min(S.fb.actions.length - 1, x < 80 ? 0 : 1);
         S.fb.sel = fi;
         fbAct(fi);
@@ -842,12 +857,14 @@
   function focusInputNoop() {}
 
   PC.open = function (ch, opts) {
+    if (!ch || typeof ch !== 'object') {
+      // A missing question (an AI answer that failed validation, say) must not
+      // throw into the battle loop: treat it like leaving the screen.
+      console.warn('PC.open called without a challenge');
+      return Promise.resolve(null);
+    }
     if (PC.active && S && S._promise) return S._promise;
     initS(ch, opts);
-    if (PM.state) {
-      if (!PM.state.pcSeen) PM.state.pcSeen = {};
-      PM.state.pcSeen[S.topic] = (PM.state.pcSeen[S.topic] || 0) + 1;
-    }
     ensureInput();
     PC.active = true;
     var p = new Promise(function (res) { resolveFn = res; });
@@ -922,6 +939,12 @@
     var res = resolveFn;
     resolveFn = null;
     PC.active = false;
+    // Only an answered question advances the topic ladder; leaving with B/ESC
+    // must not skip the teaching order.
+    if (ok !== null && S && PM.state) {
+      if (!PM.state.pcSeen) PM.state.pcSeen = {};
+      PM.state.pcSeen[S.topic] = (PM.state.pcSeen[S.topic] || 0) + 1;
+    }
     S = null;
     unbind();
     try {
