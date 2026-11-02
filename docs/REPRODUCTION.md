@@ -52,23 +52,33 @@ assets resolve from the site root.
 
 ```sh
 npm test
+npm run test:e2e
 ```
 
-The Vitest suite runs in a Node environment. It covers the AI
-challenger and the challenge logic. A green run reports 7 passing
-tests. Use `npm run test:watch` for watch mode.
+The Vitest suite runs in a Node environment. It covers the challenge
+selection logic, the integrity of the whole challenge bank, the AI
+challenger client and the dialogue box. The bank check runs every
+multiple-choice, fill and code answer through CPython when `python3` is
+on the path, and is skipped otherwise. Use `npm run test:watch` for
+watch mode.
 
-The end-to-end suite is incomplete. `npm run test:e2e` is wired to
-Playwright, but the repository has no `playwright.config.*` and no
-`*.spec.*` files, so the command cannot pass. The browser checks are
-manual for now:
+The end-to-end suite is `playwright.config.js` plus `e2e/*.spec.js`. It
+starts its own Vite server on port 4173 and checks that:
 
-1. Install a browser: `npx playwright install chromium`.
-2. Start the dev server, or serve `dist/` with a static server.
-3. Check the title screen, the starter choice, one wild battle,
-   opening and closing the PC box, and the altar ending.
+- the title screen loads without console errors;
+- the arrow keys move the player;
+- all eight gyms have a leader;
+- the house creature gives its potion exactly once;
+- a malformed save still loads a sane state, and a save pointing into a
+  wall respawns on a walkable tile;
+- the touch hints name the on-screen buttons and the desktop hints name
+  the keys.
 
-The 28-check harness used during development lives outside this
+Install the browser once with `npx playwright install chromium`. If
+Chromium cannot start on your machine, `npx playwright test
+--browser=firefox` runs the same checks.
+
+The larger 28-check harness used during development lives outside this
 repository.
 
 ## Check the question bank

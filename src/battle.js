@@ -63,7 +63,10 @@
 
   /* ---------------- flow ---------------- */
   function start(kind, arg, resolve) {
-    if (!PM.state || !PM.state.party || !PM.state.party.length) {
+    if (!PM.state || !PM.state.party || !PM.state.party.length || firstAlive() < 0) {
+      // Nothing can fight: treat it like a loss so the overworld heals the team
+      // and carries the player back, rather than starting with no active mon.
+      PM.pendingBlackout = true;
       resolve('lose');
       return;
     }
@@ -94,6 +97,7 @@
       dispPlayer: PM.state.party[firstAlive()] ? PM.state.party[firstAlive()].hp : 0,
       over: false,
       result: null,
+      waiters: [],
       resolve: resolve
     };
 
@@ -116,12 +120,16 @@
       if (PM.autosave) PM.autosave();
     }
     var r = B.resolve;
+    var waiters = B.waiters || [];
     PM.ui.box = null;
     PM.ui.menu = null;
     var b = B;
     setTimeout(function () {
       B = null;
       if (r) r(result);
+      // A caller that asked for a battle while this one was running learns the
+      // result of this battle instead of waiting forever.
+      waiters.forEach(function (w) { w(result); });
     }, 380);
   }
 
@@ -574,7 +582,13 @@
 
   PM.battle = function (kind, arg) {
     return new Promise(function (resolve) {
-      if (B) return;
+      if (B) {
+        // A battle is already on screen (or in its teardown): do not strand the
+        // caller; give it that battle's result.
+        if (B.over) resolve(B.result);
+        else B.waiters.push(resolve);
+        return;
+      }
       start(kind, arg, resolve);
     });
   };

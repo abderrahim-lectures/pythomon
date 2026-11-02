@@ -47,7 +47,10 @@ import bankData from './ai-bank.json';
     var tier = String(raw.tier || (ctx && ctx.tier) || '').toLowerCase();
     if (['mc', 'fill', 'code'].indexOf(kind) < 0) return null;
     if (TOPICS.indexOf(topic) < 0 || TIERS.indexOf(tier) < 0) return null;
-    if (ctx && (kind !== ctx.kind || topic !== ctx.topic || tier !== ctx.tier)) return null;
+    if (ctx && (topic !== ctx.topic || tier !== ctx.tier)) return null;
+    // A prefetch asks for all three kinds at once and passes no ctx.kind, so
+    // only enforce the kind when the request named one.
+    if (ctx && ctx.kind && kind !== ctx.kind) return null;
 
     var prompt = text(raw.prompt, 180);
     var explain = text(raw.explain, 320);
@@ -78,6 +81,7 @@ import bankData from './ai-bank.json';
       var accept = Array.isArray(raw.accept) ? raw.accept : [raw.accept];
       accept = accept.map(function (a) { return text(a, 80); }).filter(Boolean).slice(0, 3);
       if (!accept.length) return null;
+      if (String(code).indexOf('____') < 0) return null; // nowhere to type the answer
       q.accept = accept;
     } else {
       var mode = raw.mode === 'func' ? 'func' : 'expr';
@@ -85,7 +89,7 @@ import bankData from './ai-bank.json';
       if (!starter) return null;
       var tests = Array.isArray(raw.tests) ? raw.tests : [];
       if (mode === 'expr') {
-        if (!tests.length || !Object.prototype.hasOwnProperty.call(tests[0], 'expect')) return null;
+        if (!tests.length || !tests[0] || !Object.prototype.hasOwnProperty.call(tests[0], 'expect')) return null;
         q.mode = 'expr';
         q.starter = starter;
         q.tests = [{ expect: tests[0].expect }];
@@ -121,10 +125,8 @@ import bankData from './ai-bank.json';
     var out = {};
     var raw = (ctx && ctx.codes) || [];
     raw.forEach(function (c) { var k = codeKey(c); if (k) out[k] = true; });
-    A._cache.forEach(function (q) {
-      var k = codeKey(q.code || q.starter);
-      if (k) out[k] = true;
-    });
+    // Do not add A._cache's own codes here: A.pick tests candidates against
+    // this set, so every cached question would exclude itself.
     return out;
   }
 
@@ -216,21 +218,25 @@ import bankData from './ai-bank.json';
     if (!A.enabled || !ctx) return Promise.resolve(null);
     if (A.pick(ctx)) return Promise.resolve(true);
     if (Date.now() < A._cooldown) return Promise.resolve(null);
-    var key = ctx.topic + '|' + ctx.tier + '|' + ctx.kind;
+    var key = ctx.topic + '|' + ctx.tier; // one batch carries all three kinds
     if (A._batch && A._batchKey === key && !A._batchDone) return A._batch;
     A._batchKey = key;
     A._batchDone = false;
-    A._batch = request(ctx).then(function (list) {
+    var batch = request(ctx).then(function (list) {
       A._ingest(list, ctx);
       return true;
     }).catch(function (err) {
       A.lastError = String(err && err.message || err);
       A._cooldown = Date.now() + 60000;
       return null;
-    }).finally(function () {
-      A._batchDone = true;
     });
-    return A._batch;
+    A._batch = batch;
+    batch.then(function () {
+      // Only the current batch may mark itself done; an older batch settling
+      // must not re-open the door for a duplicate request.
+      if (A._batch === batch) A._batchDone = true;
+    });
+    return batch;
   };
 
   A.get = function (ctx) {

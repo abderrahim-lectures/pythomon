@@ -9,10 +9,18 @@ var loading = null;
 function ensure() {
   if (pyodide) return Promise.resolve(pyodide);
   if (!loading) {
-    importScripts(PYODIDE_URL + 'pyodide.js');
-    loading = loadPyodide({ indexURL: PYODIDE_URL }).then(function (p) {
+    loading = Promise.resolve().then(function () {
+      importScripts(PYODIDE_URL + 'pyodide.js');
+      if (typeof loadPyodide !== 'function') throw new Error('Python engine did not load.');
+      return loadPyodide({ indexURL: PYODIDE_URL });
+    }).then(function (p) {
       pyodide = p;
+      self.postMessage({ type: 'ready' });
       return p;
+    }, function (err) {
+      // A transient network failure must not poison every later question.
+      loading = null;
+      throw err;
     });
   }
   return loading;

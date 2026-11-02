@@ -70,3 +70,64 @@ test('home creature gives one potion and sets its flag', async ({ page }) => {
   expect(end.gift).toBe(true);
   expect(end.potions).toBe(start + 1);
 });
+
+test('a malformed save loads a sane state instead of wedging the title', async ({ page }) => {
+  const errors = collectErrors(page);
+  await page.addInitScript(() => {
+    localStorage.setItem('pythomon.save.v1', JSON.stringify({
+      v: 1,
+      state: {
+        name: 5, tier: 'nope', party: 'nope', map: 'no-such-map',
+        x: 1e9, y: -3, dir: 'sideways', potions: 'x', flags: 3
+      }
+    }));
+  });
+  await page.goto('/');
+  await page.waitForFunction(() => window.PM && PM.save.exists());
+  await page.keyboard.press('Enter');
+  await page.waitForFunction(() => !!PM.ui.menu);
+  await page.keyboard.press('Enter'); // CONTINUE
+  await page.waitForFunction(() => PM.world.ready, null, { timeout: 5000 });
+  const state = await page.evaluate(() => ({
+    map: PM.world.mapId,
+    x: PM.world.x,
+    y: PM.world.y,
+    name: PM.state.name,
+    tier: PM.state.tier,
+    party: Array.isArray(PM.state.party),
+    potions: PM.state.potions,
+    solid: !!PM.art.solid[PM.data.MAPS[PM.world.mapId].tiles[PM.world.y][PM.world.x]]
+  }));
+  expect(state.map).toBe('home');
+  expect(state.name).toBe('NOVA');
+  expect(state.tier).toBe('novice');
+  expect(state.party).toBe(true);
+  expect(state.potions).toBe(0);
+  expect(state.solid).toBe(false);
+  expect(errors).toEqual([]);
+});
+
+test('a save pointing inside a wall respawns on a walkable tile', async ({ page }) => {
+  await page.addInitScript(() => {
+    localStorage.setItem('pythomon.save.v1', JSON.stringify({
+      v: 1, state: { map: 'verdant', x: 0, y: 0, dir: 'up' }, lastCenter: { map: 'nowhere', x: 9, y: 9 }
+    }));
+  });
+  await page.goto('/');
+  await page.waitForFunction(() => window.PM && PM.save.exists());
+  await page.keyboard.press('Enter');
+  await page.waitForFunction(() => !!PM.ui.menu);
+  await page.keyboard.press('Enter');
+  await page.waitForFunction(() => PM.world.ready, null, { timeout: 5000 });
+  const spot = await page.evaluate(() => ({
+    map: PM.world.mapId,
+    x: PM.world.x,
+    y: PM.world.y,
+    solid: !!PM.art.solid[PM.data.MAPS[PM.world.mapId].tiles[PM.world.y][PM.world.x]],
+    lastCenterMap: PM.world.lastCenter.map
+  }));
+  expect(spot.map).toBe('verdant');
+  expect(spot.solid).toBe(false);
+  expect(spot.lastCenterMap).toBe('home');
+  expect(spot.x).not.toBe(0);
+});

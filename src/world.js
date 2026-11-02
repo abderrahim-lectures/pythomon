@@ -278,6 +278,7 @@
 
   function wildBattle() {
     if (W.busy) return;
+    if (!PM.state || !PM.state.party || !PM.state.party.length) return; // nothing to fight with
     var enc = W.map.encounters || [];
     var total = 0;
     enc.forEach(function (e) { total += (e.w || 1); });
@@ -294,6 +295,10 @@
     PM.battle('wild', { sp: pick.sp, lv: lv }).then(function () {
       W.busy = false;
       if (PM.autosave) PM.autosave();
+    }, function (e) {
+      // A rejected battle must not freeze the overworld.
+      console.error(e);
+      W.busy = false;
     });
   }
 
@@ -406,10 +411,14 @@
     });
   };
 
+  // main.js drives this every frame, before the dialogue/menu early return, so
+  // a fade keeps running while a box is open (a whiteout narrates over the
+  // fade-in, and the pause menu can open mid-warp).
+  W.tickFade = updateFade;
+
   /* ---------------- update ---------------- */
   W.update = function () {
     W.time += 16;
-    updateFade();
 
     if (W.banner) {
       W.banner.t += 1;

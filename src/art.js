@@ -1087,7 +1087,9 @@
     var ih = img.naturalHeight || img.height;
     if (!iw || !ih) return false;
     var s = Math.min(w / iw, h / ih);
-    if (integer) s = Math.max(1, Math.floor(s));
+    // Whole steps when upscaling keeps pixel art sharp; a sprite larger than
+    // its box must still shrink to fit it.
+    if (integer) s = s >= 1 ? Math.floor(s) : s;
     if (maxScale) s = Math.min(s, maxScale);
     var dw = iw * s, dh = ih * s;
     var dx = x + (w - dw) / 2;

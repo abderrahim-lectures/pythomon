@@ -68,6 +68,8 @@
   }
 
   function saveGame() {
+    // A debug screen holds a throwaway state; never write it over a real save.
+    if (PM.world && PM.world._suspendSave) return false;
     if (!PM.state) return false;
     PM.state.map = PM.world.mapId || PM.state.map;
     PM.state.x = PM.world.x;
@@ -83,35 +85,114 @@
       lastCenter: PM.world.lastCenter
     });
   }
-  PM.autosave = function () { try { saveGame(); } catch (e) {} };
+  PM.autosave = function () {
+    if (PM.world && PM.world._suspendSave) return; // debug screens must not clobber a real save
+    try { saveGame(); } catch (e) {}
+  };
+
+  var DIRS = { up: 1, down: 1, left: 1, right: 1 };
+
+  function isNum(v) { return typeof v === 'number' && isFinite(v); }
+
+  // A save can be old, hand-edited or truncated. Never trust a field.
+  function cleanState(raw) {
+    var st = (raw && typeof raw === 'object' && !Array.isArray(raw)) ? raw : {};
+    st.name = typeof st.name === 'string' && st.name.trim() ? st.name.trim().slice(0, 8) : 'NOVA';
+    st.tier = TIERS.some(function (t) { return t.key === st.tier; }) ? st.tier : 'novice';
+    st.battles = isNum(st.battles) && st.battles > 0 ? Math.floor(st.battles) : 0;
+    st.battleSeen = Array.isArray(st.battleSeen)
+      ? st.battleSeen.filter(function (id) { return typeof id === 'string'; }) : [];
+    st.battleCodes = Array.isArray(st.battleCodes)
+      ? st.battleCodes.filter(function (c) { return typeof c === 'string'; }) : [];
+    st.flags = (st.flags && typeof st.flags === 'object' && !Array.isArray(st.flags)) ? st.flags : {};
+    st.potions = isNum(st.potions) && st.potions > 0 ? Math.floor(st.potions) : 0;
+    st.capsules = isNum(st.capsules) && st.capsules > 0 ? Math.floor(st.capsules) : 0;
+    if (!isNum(st.startedAt)) st.startedAt = Date.now();
+    st.pcSeen = (st.pcSeen && typeof st.pcSeen === 'object' && !Array.isArray(st.pcSeen)) ? st.pcSeen : {};
+    var party = Array.isArray(st.party) ? st.party : [];
+    st.party = [];
+    party.forEach(function (m) {
+      if (!m || typeof m !== 'object' || !m.sp || !PM.data.SPECIES[m.sp]) return;
+      var mon = {
+        sp: m.sp,
+        lv: isNum(m.lv) ? PM.clamp(Math.floor(m.lv), 1, 40) : 5,
+        hp: 0,
+        xp: isNum(m.xp) && m.xp > 0 ? Math.floor(m.xp) : 0
+      };
+      var maxHp = PM.monStats(mon).maxHp;
+      // A fainted party member is stored at 0 HP; keep it fainted. Only a
+      // missing or non-numeric value is treated as full health.
+      mon.hp = isNum(m.hp) ? PM.clamp(Math.floor(m.hp), 0, maxHp) : maxHp;
+      if (st.party.length < 6) st.party.push(mon);
+    });
+    return st;
+  }
+
+  function walkableTile(map, x, y) {
+    if (!map || !isNum(x) || !isNum(y)) return false;
+    x = Math.floor(x); y = Math.floor(y);
+    if (x < 0 || y < 0 || x >= map.w || y >= map.h) return false;
+    var row = map.tiles[y];
+    if (!row || x >= row.length) return false;
+    return !PM.art.solid[row[x]];
+  }
+
+  // Accept a saved spot only when it is inside a real map and stands on a
+  // walkable tile; otherwise search nearby and finally anywhere on the map.
+  function safePlace(mapId, x, y) {
+    var map = PM.data.MAPS[mapId];
+    if (!map) return null;
+    if (walkableTile(map, x, y)) return { map: mapId, x: Math.floor(x), y: Math.floor(y) };
+    var cx = isNum(x) ? Math.floor(x) : 0, cy = isNum(y) ? Math.floor(y) : 0;
+    for (var r = 1; r <= 4; r++) {
+      for (var dy = -r; dy <= r; dy++) {
+        for (var dx = -r; dx <= r; dx++) {
+          if (walkableTile(map, cx + dx, cy + dy)) return { map: mapId, x: cx + dx, y: cy + dy };
+        }
+      }
+    }
+    for (var yy = 0; yy < map.h; yy++) {
+      for (var xx = 0; xx < map.w; xx++) {
+        if (walkableTile(map, xx, yy)) return { map: mapId, x: xx, y: yy };
+      }
+    }
+    return null;
+  }
+
+  function restoreReturn(raw) {
+    var p = raw && safePlace(raw.map, raw.x, raw.y);
+    return p ? { map: p.map, x: p.x, y: p.y, dir: DIRS[raw.dir] ? raw.dir : 'down' } : null;
+  }
 
   function loadGame() {
     var s = PM.save.read();
-    if (!s || !s.state) return false;
-    var st = s.state;
-    st.tier = st.tier || 'novice';
-    st.battles = typeof st.battles === 'number' ? st.battles : 0;
-    st.battleSeen = Array.isArray(st.battleSeen) ? st.battleSeen : [];
-    st.battleCodes = Array.isArray(st.battleCodes) ? st.battleCodes : [];
-    st.flags = st.flags || {};
-    st.party = st.party || [];
-    st.potions = st.potions || 0;
-    st.capsules = st.capsules || 0;
-    st.name = st.name || 'NOVA';
-    st.party.forEach(function (m) {
-      if (typeof m.xp !== 'number') m.xp = 0;
-      if (typeof m.hp !== 'number' || m.hp <= 0) m.hp = PM.monStats(m).maxHp;
-    });
-    PM.state = st;
-    PM.world.gym = s.gym || null;
-    PM.world.gymReturn = s.gymReturn || null;
-    PM.world.centerReturn = s.centerReturn || null;
-    PM.world.lastCenter = s.lastCenter || { map: 'home', x: 5, y: 6, dir: 'up' };
-    PM.pendingBlackout = false;
-    scene = 'world';
-    PM.world.enter(st.map || 'home', st.x || 5, st.y || 5, st.dir || 'down');
-    flash = 8;
-    return true;
+    if (!s || !s.state || typeof s.state !== 'object') return false;
+    try {
+      var st = cleanState(s.state);
+      var spot = safePlace(st.map, st.x, st.y) || safePlace('home', 5, 5);
+      if (!spot) return false;
+      PM.state = st;
+      PM.world.gym = s.gym && s.gym.leader ? { leader: s.gym.leader } : null;
+      PM.world.gymReturn = restoreReturn(s.gymReturn);
+      PM.world.centerReturn = restoreReturn(s.centerReturn);
+      var last = safePlace(s.lastCenter && s.lastCenter.map, s.lastCenter && s.lastCenter.x,
+                           s.lastCenter && s.lastCenter.y) || { map: 'home', x: 5, y: 6 };
+      PM.world.lastCenter = {
+        map: last.map, x: last.x, y: last.y,
+        dir: s.lastCenter && DIRS[s.lastCenter.dir] ? s.lastCenter.dir : 'up'
+      };
+      PM.pendingBlackout = false;
+      PM.world.blackoutPending = false;
+      scene = 'world';
+      PM.world.enter(spot.map, spot.x, spot.y, DIRS[st.dir] ? st.dir : 'down');
+      flash = 8;
+      return true;
+    } catch (e) {
+      console.error('could not load the save', e);
+      PM.state = null;
+      scene = 'title';
+      return false;
+    }
   }
 
   /* ---------------- title ---------------- */
@@ -232,52 +313,56 @@
   async function openTitleMenu() {
     if (title.busy) return;
     title.busy = true;
-    var hasSave = PM.save.exists();
-    var opts = hasSave ? ['CONTINUE', 'NEW GAME', 'HOW TO PLAY'] : ['NEW GAME', 'HOW TO PLAY'];
-    var i = await PM.ui.choose(opts, { x: 28, y: 74, w: 104, h: opts.length * 14 + 8, cancelable: true });
-    title.busy = false;
-    if (i < 0) { title.started = false; return; }
-    var choice = opts[i];
-    if (choice === 'CONTINUE') {
-      if (!loadGame()) {
-        await PM.say(['The save file could not be read.']);
+    try {
+      var hasSave = PM.save.exists();
+      var opts = hasSave ? ['CONTINUE', 'NEW GAME', 'HOW TO PLAY'] : ['NEW GAME', 'HOW TO PLAY'];
+      var i = await PM.ui.choose(opts, { x: 28, y: 74, w: 104, h: opts.length * 14 + 8, cancelable: true });
+      if (i < 0) { title.started = false; return; }
+      var choice = opts[i];
+      if (choice === 'CONTINUE') {
+        if (!loadGame()) {
+          await PM.say(['The save file could not be read.']);
+          title.started = false;
+        }
+      } else if (choice === 'NEW GAME') {
+        scene = 'tier';
+        tierState.idx = 0;
+        PM.audio.select();
+      } else {
+        var help = PM.isTouch() ? [
+          'MOVE: THE D-PAD.',
+          'A: OK.  B: BACK.',
+          'START: MENU.',
+          'SOUND: TAP IT.',
+          'BATTLE MOVES ASK PYTHON QUESTIONS.',
+          'A RIGHT ANSWER LANDS THE MOVE.',
+          'A WRONG ANSWER SHOWS WHY.',
+          'CHOOSE: UP/DOWN, THEN A.',
+          'FILL: TYPE. A OK.',
+          'TYPE CODE. A RUNS.',
+          'B LEAVES A QUESTION.',
+          'LEAVING DOES NOT COST YOUR TURN.',
+          'READ THE WHY AFTER EVERY ANSWER.'
+        ] : [
+          'MOVE: ARROWS OR WASD.',
+          'A: Z OR ENTER.  B: X OR ESC.',
+          'MENU: TAB.  SOUND: M.',
+          'BATTLE MOVES ASK PYTHON QUESTIONS.',
+          'A RIGHT ANSWER LANDS THE MOVE.',
+          'A WRONG ANSWER SHOWS WHY.',
+          'CHOOSE: UP/DOWN, THEN ENTER.',
+          'FILL: TYPE THE BLANK, ENTER SENDS.',
+          'CODE: EDIT, THEN CTRL+ENTER RUNS.',
+          'ESC LEAVES A QUESTION.',
+          'LEAVING DOES NOT COST YOUR TURN.',
+          'READ THE WHY AFTER EVERY ANSWER.'
+        ];
+        await PM.say(help);
         title.started = false;
       }
-    } else if (choice === 'NEW GAME') {
-      scene = 'tier';
-      tierState.idx = 0;
-      PM.audio.select();
-    } else {
-      var help = PM.isTouch() ? [
-        'MOVE: THE D-PAD.',
-        'A: OK.  B: BACK.',
-        'START: MENU.',
-        'SOUND: TAP IT.',
-        'BATTLE MOVES ASK PYTHON QUESTIONS.',
-        'A RIGHT ANSWER LANDS THE MOVE.',
-        'A WRONG ANSWER SHOWS WHY.',
-        'CHOOSE: UP/DOWN, THEN A.',
-        'FILL: TYPE. A OK.',
-        'TYPE CODE. A RUNS.',
-        'B LEAVES A QUESTION.',
-        'LEAVING DOES NOT COST YOUR TURN.',
-        'READ THE WHY AFTER EVERY ANSWER.'
-      ] : [
-        'MOVE: ARROWS OR WASD.',
-        'A: Z OR ENTER.  B: X OR ESC.',
-        'MENU: TAB.  SOUND: M.',
-        'BATTLE MOVES ASK PYTHON QUESTIONS.',
-        'A RIGHT ANSWER LANDS THE MOVE.',
-        'A WRONG ANSWER SHOWS WHY.',
-        'CHOOSE: UP/DOWN, THEN ENTER.',
-        'FILL: TYPE THE BLANK, ENTER SENDS.',
-        'CODE: EDIT, THEN CTRL+ENTER RUNS.',
-        'ESC LEAVES A QUESTION.',
-        'LEAVING DOES NOT COST YOUR TURN.',
-        'READ THE WHY AFTER EVERY ANSWER.'
-      ];
-      await PM.say(help);
-      title.started = false;
+    } finally {
+      // A throw (for example a malformed save) must not wedge the title menu.
+      title.busy = false;
     }
   }
 
@@ -325,7 +410,7 @@
   function updateTier() {
     if (PM.input.pressed('up')) { tierState.idx = (tierState.idx + 2) % 3; PM.audio.blip(); }
     if (PM.input.pressed('down')) { tierState.idx = (tierState.idx + 1) % 3; PM.audio.blip(); }
-    if (PM.input.pressed('b')) { scene = 'title'; title.started = false; PM.audio.back(); }
+    if (PM.input.pressed('b')) { scene = 'title'; title.started = false; PM.audio.back(); return; }
     if (PM.input.pressed('a')) {
       PM.audio.select();
       nameState = { name: '', idx: 0, hint: '', t: 0 };
@@ -557,11 +642,13 @@
       await PM.say(['CAPSULES: ' + PM.state.capsules, 'POTIONS: ' + PM.state.potions]);
     } else if (choice === 'SAVE') {
       if (saveGame()) { PM.audio.select(); PM.toast('GAME SAVED'); }
-      else PM.toast('SAVE FAILED');
+      else PM.toast(PM.world._suspendSave ? 'SAVE OFF IN DEBUG' : 'SAVE FAILED');
     } else if (choice === 'EXIT') {
       var yes = await PM.ui.ask('Return to the title screen?');
       if (yes) {
-        saveGame();
+        // Do not throw the session away when the write failed. A debug screen
+        // has nothing worth writing, so it may leave without saving.
+        if (!PM.world._suspendSave && !saveGame()) { PM.toast('SAVE FAILED'); return; }
         scene = 'title';
         title.started = false;
         title.busy = false;
@@ -671,6 +758,7 @@
   function update() {
     PM.ui.tick();
     PM.tickToast();
+    if (PM.world && PM.world.tickFade) PM.world.tickFade();
     if (flash > 0) flash -= 1;
 
     var battleNow = PM.battleActive();
@@ -739,13 +827,20 @@
     var dt = Math.min(80, now - last);
     last = now;
     acc += dt;
-    var steps = 0;
-    while (acc >= 1000 / 60 && steps < 4) {
-      update();
-      acc -= 1000 / 60;
-      steps += 1;
+    try {
+      var steps = 0;
+      while (acc >= 1000 / 60 && steps < 4) {
+        update();
+        acc -= 1000 / 60;
+        steps += 1;
+      }
+      render();
+    } catch (e) {
+      // One bad frame must not stop the animation loop for the rest of the
+      // session: log it, drop the backlog and keep drawing.
+      console.error('frame failed', e);
+      acc = 0;
     }
-    render();
     requestAnimationFrame(loop);
   }
 
