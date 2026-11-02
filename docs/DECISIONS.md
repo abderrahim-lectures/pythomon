@@ -115,8 +115,12 @@ message`. `--write` rewrites the file in standard two-space JSON only after
 a valid run. The command exits 1 on a bank error and 2 on an unknown
 argument.
 
-Decision 21: eight gyms and two houses. Serves instruction 10. Five leaders
-repeat the core topics for practice: DICTUS and BOOLE in BYTEBURG, SLICER in
-VERDANT, LOOPER on ROUTE 1, VECTOR on ROUTE 2. Each leader has a badge gate,
-so the badges come in a fixed order. BYTE HOUSE and MOVE HOUSE hold a keeper
-and a child; the keeper gives one gift, once.
+Decision 21: eight gyms along one north road. Serves instruction 10. Each
+badge has its own map: BITFORD in BYTEBURG, BOOLE on BOOL BRIDGE, QUOTIA in
+INDENTIA, BRACKETT in STACKTON, DICTUS in KEYKEEP, SLICER in SLICECLIFF,
+LOOPER in LOOPHAVEN, VECTOR in CORE CITY. Gate N needs N badges. Return roads
+stay open, so the player can always go back. The old gym doors are closed and
+a keeper explains the move. RIVAL battles sit on ROUTE 1, BOOL BRIDGE,
+STACKTON and CORE CITY. TEAM TRACEBACK grunts guard each new leg. The tower
+gate needs eight badges. BYTE HOUSE and MOVE HOUSE hold a keeper and a child;
+the keeper gives one gift, once.

@@ -67,7 +67,10 @@ starts its own Vite server on port 4173 and checks that:
 
 - the title screen loads without console errors;
 - the arrow keys move the player;
-- all eight gyms have a leader;
+- all eight gyms have a leader, one per map, in badge order;
+- the north road is a connected badge-gated journey;
+- every warp lands on a walkable tile;
+- a badge gate blocks travel until the badge is earned;
 - the house creature gives its potion exactly once;
 - a malformed save still loads a sane state, and a save pointing into a
   wall respawns on a walkable tile;

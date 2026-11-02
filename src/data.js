@@ -172,87 +172,136 @@
       win: ['REX: Lucky. That is all it was.'],
       after: ['REX: I am going to beat every gym before you.']
     },
+    rex2: {
+      name: 'REX', sprite: 'rival', topic: 'bool',
+      team: [{ sp: 'striggle', lv: 12 }, { sp: 'booleon', lv: 13 }],
+      intro: ['REX: You again. I found a shortcut.',
+              'REX: Boole says my logic is sloppy. Let us test yours.'],
+      win: ['REX: Fine. You read the branch better than I did.'],
+      after: ['REX: Boole is inside. He only respects a trainer who can say no.']
+    },
+    rex3: {
+      name: 'REX', sprite: 'rival', topic: 'list',
+      team: [{ sp: 'listrix', lv: 19 }, { sp: 'strigor', lv: 20 }],
+      intro: ['REX: I have been waiting in this city.',
+              'REX: Quotia says my team has no order. Show me yours.'],
+      win: ['REX: You keep winning. I keep taking notes.'],
+      after: ['REX: Quotia is in the gym. Then we go north.']
+    },
+    rex4: {
+      name: 'REX', sprite: 'rival', topic: 'int',
+      team: [{ sp: 'intiger', lv: 30 }, { sp: 'lexicon', lv: 31 }, { sp: 'megalist', lv: 32 }],
+      intro: ['REX: This is the last gate before the tower.',
+              'REX: I want one clean battle. No shortcuts.'],
+      win: ['REX: Good. You are ready for Null.'],
+      after: ['REX: I will hold the gate. Go and finish this.']
+    },
     bitford: {
       name: 'BITFORD', sprite: 'int', topic: 'int', leader: true, needs: 0,
-      team: [{ sp: 'zeroling', lv: 8 }, { sp: 'intiger', lv: 10 }],
+      team: [{ sp: 'zeroling', lv: 7 }, { sp: 'intiger', lv: 9 }],
       intro: ['BITFORD: I count every trainer who walks in.',
               'BITFORD: You are number forty-two. Let us see if you add up.'],
       win: ['BITFORD: The numbers do not lie. You earned this.'],
-      after: ['BITFORD: The BIT BADGE is yours. INT types will obey you now.']
-    },
-    quotia: {
-      name: 'QUOTIA', sprite: 'str', topic: 'str', leader: true, needs: 3,
-      team: [{ sp: 'striggle', lv: 14 }, { sp: 'strigor', lv: 16 }],
-      intro: ['QUOTIA: Words are the first program.',
-               'QUOTIA: Show me you can hold a string without dropping it.'],
-      win: ['QUOTIA: Well said. Take the WORD BADGE.'],
-      after: ['QUOTIA: Team Traceback came through here. They took the shard.']
-    },
-    brackett: {
-      name: 'BRACKETT', sprite: 'list', topic: 'list', leader: true, needs: 3,
-      team: [{ sp: 'listle', lv: 20 }, { sp: 'listrix', lv: 22 }],
-      intro: ['BRACKETT: Everything in my gym is in order.',
-               'BRACKETT: Break the order and you break me.'],
-      win: ['BRACKETT: You kept it all in one piece. The STACK BADGE is yours.'],
-      after: ['BRACKETT: Null went north. He took every shard but one.']
-    },
-    dictus: {
-      name: 'DICTUS', sprite: 'dict', topic: 'dict', leader: true, needs: 1,
-      team: [{ sp: 'curly', lv: 10 }, { sp: 'dictling', lv: 12 }],
-      intro: ['DICTUS: Every name in my gym opens a door.',
-              'DICTUS: Find the key, or the door stays shut.'],
-      win: ['DICTUS: You found every key. The KEY BADGE is yours.'],
-      after: ['DICTUS: Null hides his plans in a dict. Good luck reading it.']
+      after: ['BITFORD: The BIT BADGE is yours. Take the south road to BOOL BRIDGE.']
     },
     boole: {
-      name: 'BOOLE', sprite: 'bool', topic: 'bool', leader: true, needs: 2,
-      team: [{ sp: 'bitty', lv: 14 }, { sp: 'booleon', lv: 16 }],
+      name: 'BOOLE', sprite: 'bool', topic: 'bool', leader: true, needs: 1,
+      team: [{ sp: 'bitty', lv: 11 }, { sp: 'booleon', lv: 13 }],
       intro: ['BOOLE: Two answers exist here. True, or False.',
               'BOOLE: There is no maybe in my gym.'],
       win: ['BOOLE: True. You win. The TRUTH BADGE is yours.'],
-      after: ['BOOLE: A clean condition beats a clever one.']
+      after: ['BOOLE: The north gate opens. INDENTIA is waiting.']
+    },
+    quotia: {
+      name: 'QUOTIA', sprite: 'str', topic: 'str', leader: true, needs: 2,
+      team: [{ sp: 'striggle', lv: 15 }, { sp: 'strigor', lv: 17 }],
+      intro: ['QUOTIA: Words are the first program.',
+               'QUOTIA: Show me you can hold a string without dropping it.'],
+      win: ['QUOTIA: Well said. Take the WORD BADGE.'],
+      after: ['QUOTIA: Team Traceback took the north shard. STACKTON is next.']
+    },
+    brackett: {
+      name: 'BRACKETT', sprite: 'list', topic: 'list', leader: true, needs: 3,
+      team: [{ sp: 'listle', lv: 19 }, { sp: 'listrix', lv: 21 }],
+      intro: ['BRACKETT: Everything in my gym is in order.',
+               'BRACKETT: Break the order and you break me.'],
+      win: ['BRACKETT: You kept it all in one piece. The STACK BADGE is yours.'],
+      after: ['BRACKETT: A list without order is noise. KEYKEEP is north.']
+    },
+    dictus: {
+      name: 'DICTUS', sprite: 'dict', topic: 'dict', leader: true, needs: 4,
+      team: [{ sp: 'curly', lv: 23 }, { sp: 'dictling', lv: 25 }],
+      intro: ['DICTUS: Every name in my archive opens a door.',
+              'DICTUS: Find the key, or the door stays shut.'],
+      win: ['DICTUS: You found every key. The KEY BADGE is yours.'],
+      after: ['DICTUS: The last shards are north. SLICECLIFF is next.']
     },
     slicer: {
       name: 'SLICER', sprite: 'str', topic: 'str', leader: true, needs: 5,
-      team: [{ sp: 'strigor', lv: 19 }, { sp: 'listrix', lv: 20 }],
+      team: [{ sp: 'strigor', lv: 26 }, { sp: 'lexicon', lv: 28 }],
       intro: ['SLICER: I take what I need and leave the rest.',
               'SLICER: Show me your edge.'],
       win: ['SLICER: Clean cut. The SLICE BADGE is yours.'],
-      after: ['SLICER: Start and stop. Never the last index.']
+      after: ['SLICER: Start and stop. Never the last index. LOOPHAVEN is north.']
     },
     looper: {
       name: 'LOOPER', sprite: 'list', topic: 'list', leader: true, needs: 6,
-      team: [{ sp: 'listrix', lv: 21 }, { sp: 'dictling', lv: 22 }],
+      team: [{ sp: 'listrix', lv: 29 }, { sp: 'megalist', lv: 31 }],
       intro: ['LOOPER: One step, then the next, then the next.',
               'LOOPER: Break the loop and you break me.'],
       win: ['LOOPER: You closed the loop. The LOOP BADGE is yours.'],
-      after: ['LOOPER: Always know where the loop stops.']
+      after: ['LOOPER: A loop needs an exit. CORE CITY is the exit.']
     },
     vector: {
       name: 'VECTOR', sprite: 'int', topic: 'int', leader: true, needs: 7,
-      team: [{ sp: 'intiger', lv: 23 }, { sp: 'biginti', lv: 25 }],
+      team: [{ sp: 'intiger', lv: 32 }, { sp: 'biginti', lv: 34 }],
       intro: ['VECTOR: I move numbers in a straight line.',
               'VECTOR: Keep pace, or fall behind.'],
       win: ['VECTOR: You kept pace. The CORE BADGE is yours.'],
-      after: ['VECTOR: Eight badges. The tower is waiting.']
+      after: ['VECTOR: Eight badges. The tower gate is open. Null is waiting.']
     },
     grunt1: {
       name: 'GRUNT', sprite: 'grunt', topic: 'bool',
-      team: [{ sp: 'curly', lv: 12 }],
+      team: [{ sp: 'curly', lv: 10 }],
       intro: ['GRUNT: Team Traceback business. Turn around.'],
       win: ['GRUNT: This is not over.'],
-      after: ['GRUNT: The shard is already on its way to Null.']
+      after: ['GRUNT: The bridge shard is already on its way to Null.']
     },
     grunt2: {
       name: 'GRUNT', sprite: 'grunt', topic: 'dict',
-      team: [{ sp: 'dictling', lv: 18 }],
-      intro: ['GRUNT: You again. Null said you would come.'],
-      win: ['GRUNT: Fine. Take the corridor. It leads to him.'],
+      team: [{ sp: 'dictling', lv: 16 }],
+      intro: ['GRUNT: You again. Null said you would come.',
+              'GRUNT: The north gate stays shut.'],
+      win: ['GRUNT: Fine. The gate still needs three badges.'],
       after: ['GRUNT: Do not say I did not warn you.']
+    },
+    grunt3: {
+      name: 'GRUNT', sprite: 'grunt', topic: 'list',
+      team: [{ sp: 'dictling', lv: 20 }, { sp: 'booleon', lv: 21 }],
+      intro: ['GRUNT: The Stack Shard belongs to Team Traceback.',
+              'GRUNT: Brackett is too slow to stop us.'],
+      win: ['GRUNT: You are making a list of enemies.'],
+      after: ['GRUNT: Null is collecting every shard in CORE CITY.']
+    },
+    grunt4: {
+      name: 'GRUNT', sprite: 'grunt', topic: 'dict',
+      team: [{ sp: 'intiger', lv: 24 }, { sp: 'keylord', lv: 25 }],
+      intro: ['GRUNT: This archive is under new management.',
+              'GRUNT: Every key belongs to Null now.'],
+      win: ['GRUNT: The archive is yours. For now.'],
+      after: ['GRUNT: The last shard is at the cliffs.']
+    },
+    grunt5: {
+      name: 'GRUNT', sprite: 'grunt', topic: 'str',
+      team: [{ sp: 'strigor', lv: 29 }, { sp: 'megalist', lv: 30 }],
+      intro: ['GRUNT: The harbor shard is ours.',
+              'GRUNT: You are too late to close this loop.'],
+      win: ['GRUNT: Then go north. Null will delete you with the rest.'],
+      after: ['GRUNT: CORE CITY is open. He is waiting.']
     },
     null: {
       name: 'NULL', sprite: 'grunt', topic: 'class', boss: true,
-      team: [{ sp: 'keylord', lv: 26 }, { sp: 'truthwyrm', lv: 28 }],
+      team: [{ sp: 'keylord', lv: 36 }, { sp: 'truthwyrm', lv: 38 }],
       intro: ['NULL: Every error is a mistake someone refused to fix.',
               'NULL: I will delete the whole region and write it again, clean.',
               'NULL: Ouroboros is the last loop. I am here to break it.'],
@@ -260,6 +309,7 @@
       after: ['NULL: Then close it yourself. See what a clean world costs.']
     }
   };
+
 
   /* ---------------- maps ---------------- */
   // . grass  , tall grass  # tree  = path  ~ water  F flower  R rock  S sign
@@ -294,12 +344,12 @@
       { x: 9, y: 17, to: 'route1', tx: 9, ty: 17, dir: 'up' },
       { x: 10, y: 17, to: 'route1', tx: 10, ty: 17, dir: 'up' },
       { x: 5, y: 4, to: 'home', tx: 5, ty: 7, dir: 'up' },
-      { x: 15, y: 4, to: 'lab', tx: 7, ty: 8, dir: 'up' },
-      { x: 4, y: 15, gym: 'slicer', tx: 6, ty: 7, dir: 'up' }
+      { x: 15, y: 4, to: 'lab', tx: 7, ty: 8, dir: 'up' }
     ],
     objects: [
       { type: 'npc', id: 'kid', sprite: 'kid', x: 15, y: 9, dir: 'left', talk: 'kid_town' },
       { type: 'npc', id: 'elder', sprite: 'prof', x: 13, y: 15, dir: 'left', talk: 'tip_types' },
+      { type: 'npc', id: 'dojo', sprite: 'kid', x: 4, y: 16, dir: 'up', talk: 'verdant_dojo' },
       { type: 'sign', x: 3, y: 8, text: ['VERDANT TOWN', 'Where every program starts.', 'SOUTH: ROUTE 1 and BYTEBURG.'] }
     ]
   };
@@ -460,11 +510,11 @@
       { x: 9, y: 18, to: 'verdant', tx: 9, ty: 16, dir: 'up' },
       { x: 10, y: 18, to: 'verdant', tx: 10, ty: 16, dir: 'up' },
       { x: 9, y: 0, to: 'byteburg', tx: 9, ty: 1, dir: 'up' },
-      { x: 10, y: 0, to: 'byteburg', tx: 10, ty: 1, dir: 'up' },
-      { x: 14, y: 12, gym: 'looper', tx: 6, ty: 7, dir: 'up' }
+      { x: 10, y: 0, to: 'byteburg', tx: 10, ty: 1, dir: 'up' }
     ],
     objects: [
       { type: 'npc', id: 'rex1', sprite: 'rival', x: 9, y: 7, dir: 'down', sight: 3, talk: 'rex_route' },
+      { type: 'npc', id: 'dojo1', sprite: 'kid', x: 14, y: 13, dir: 'up', talk: 'route1_dojo' },
       { type: 'sign', x: 3, y: 16, text: ['ROUTE 1', 'Tall grass hides wild pythomon.'] }
     ],
     encounters: [
@@ -501,16 +551,15 @@
     warps: [
       { x: 9, y: 0, to: 'route1', tx: 9, ty: 1, dir: 'down' },
       { x: 10, y: 0, to: 'route1', tx: 10, ty: 1, dir: 'down' },
-      { x: 9, y: 17, to: 'route2', tx: 9, ty: 17, dir: 'up' },
-      { x: 10, y: 17, to: 'route2', tx: 10, ty: 17, dir: 'up' },
+      { x: 9, y: 17, to: 'route2', tx: 9, ty: 17, dir: 'up', needs: 1 },
+      { x: 10, y: 17, to: 'route2', tx: 10, ty: 17, dir: 'up', needs: 1 },
       { x: 5, y: 4, to: 'house_byte', tx: 4, ty: 7, dir: 'up' },
       { x: 15, y: 4, to: 'center', tx: 5, ty: 6, dir: 'up' },
-      { x: 14, y: 8, gym: 'dictus', tx: 6, ty: 7, dir: 'up' },
-      { x: 4, y: 13, gym: 'boole', tx: 6, ty: 7, dir: 'up' },
       { x: 15, y: 13, gym: 'bitford', tx: 6, ty: 7, dir: 'up' }
     ],
     objects: [
-      { type: 'npc', id: 'kid2', sprite: 'kid', x: 4, y: 9, dir: 'right', talk: 'kid_gym' }
+      { type: 'npc', id: 'kid2', sprite: 'kid', x: 4, y: 9, dir: 'right', talk: 'kid_gym' },
+      { type: 'npc', id: 'oldgym', sprite: 'prof', x: 14, y: 9, dir: 'up', talk: 'byte_old_gym' }
     ]
   };
 
@@ -538,7 +587,7 @@
   };
 
   D.MAPS.route2 = {
-    name: 'ROUTE 2',
+    name: 'BOOL BRIDGE',
     w: 20, h: 18,
     tiles: [
       '#########..#########',
@@ -563,13 +612,14 @@
     warps: [
       { x: 9, y: 17, to: 'byteburg', tx: 9, ty: 1, dir: 'down' },
       { x: 10, y: 17, to: 'byteburg', tx: 10, ty: 1, dir: 'down' },
-      { x: 9, y: 0, to: 'indentia', tx: 9, ty: 16, dir: 'up' },
-      { x: 10, y: 0, to: 'indentia', tx: 10, ty: 16, dir: 'up' },
-      { x: 14, y: 6, gym: 'vector', tx: 6, ty: 7, dir: 'up' }
+      { x: 9, y: 0, to: 'indentia', tx: 9, ty: 16, dir: 'up', needs: 2 },
+      { x: 10, y: 0, to: 'indentia', tx: 10, ty: 16, dir: 'up', needs: 2 },
+      { x: 14, y: 6, gym: 'boole', tx: 6, ty: 7, dir: 'up' }
     ],
     objects: [
+      { type: 'npc', id: 'rex2', sprite: 'rival', x: 10, y: 12, dir: 'down', sight: 4, hideFlag: 'beat_rex2', talk: 'rex_bool' },
       { type: 'npc', id: 'grunt1', sprite: 'grunt', x: 9, y: 9, dir: 'down', sight: 4, talk: 'grunt1' },
-      { type: 'sign', x: 3, y: 16, text: ['ROUTE 2', 'North to INDENTIA CITY.'] }
+      { type: 'sign', x: 3, y: 16, text: ['BOOL BRIDGE', 'BOOLE tests the power of True and False.', 'North: INDENTIA CITY.'] }
     ],
     encounters: [
       { sp: 'strigor', min: 8, max: 11, w: 2 },
@@ -605,16 +655,238 @@
     warps: [
       { x: 9, y: 17, to: 'route2', tx: 9, ty: 1, dir: 'down' },
       { x: 10, y: 17, to: 'route2', tx: 10, ty: 1, dir: 'down' },
+      { x: 9, y: 0, to: 'stackton', tx: 9, ty: 17, dir: 'up', needs: 3 },
+      { x: 10, y: 0, to: 'stackton', tx: 10, ty: 17, dir: 'up', needs: 3 },
       { x: 5, y: 4, to: 'center', tx: 5, ty: 6, dir: 'up' },
       { x: 15, y: 4, gym: 'quotia', tx: 6, ty: 7, dir: 'up' },
-      { x: 14, y: 8, to: 'house_move', tx: 4, ty: 7, dir: 'up' },
-      { x: 5, y: 15, gym: 'brackett', tx: 6, ty: 7, dir: 'up' },
-      { x: 15, y: 15, to: 'tower', tx: 6, ty: 8, dir: 'up' }
+      { x: 14, y: 8, to: 'house_move', tx: 4, ty: 7, dir: 'up' }
     ],
     objects: [
       { type: 'npc', id: 'kid3', sprite: 'kid', x: 12, y: 9, dir: 'left', talk: 'tip_dict' },
-      { type: 'sign', x: 3, y: 8, text: ['INDENTIA CITY', 'Two gyms. One tower.', 'The tower door is north-east.'] },
-      { type: 'npc', id: 'grunt2', sprite: 'grunt', x: 15, y: 16, dir: 'up', hideFlag: 'beat_grunt2', talk: 'grunt2' }
+      { type: 'npc', id: 'grunt2', sprite: 'grunt', x: 10, y: 2, dir: 'down', sight: 4, hideFlag: 'beat_grunt2', talk: 'grunt2' },
+      { type: 'npc', id: 'tower_guard', sprite: 'prof', x: 15, y: 16, dir: 'up', talk: 'old_tower' },
+      { type: 'npc', id: 'oldgym3', sprite: 'kid', x: 5, y: 16, dir: 'up', talk: 'indentia_old_gym' },
+      { type: 'sign', x: 3, y: 8, text: ['INDENTIA CITY', 'One gym. One north gate.', 'The tower moved to CORE CITY.'] }
+    ]
+  };
+
+  D.MAPS.stackton = {
+    name: 'STACKTON',
+    w: 20, h: 18,
+    tiles: [
+      '#########..#########',
+      '#..rrrrr.==..rrrrr.#',
+      '#..rrrrr.==..rrrrr.#',
+      '#..wwDww.==..wwDww.#',
+      '#........==........#',
+      '#..R.....==.....R..#',
+      '#..R.....==.....R..#',
+      '#..R..,,,,==,,,,.R.#',
+      '#..R..,,,,==,,,,.R.#',
+      '#..R.....==.....R..#',
+      '#..R.....==.....R..#',
+      '#..R.....==.....R..#',
+      '#........==........#',
+      '#..S.....==........#',
+      '#........==........#',
+      '#........==........#',
+      '#........==........#',
+      '#########..#########'
+    ],
+    warps: [
+      { x: 9, y: 17, to: 'indentia', tx: 9, ty: 1, dir: 'down' },
+      { x: 10, y: 17, to: 'indentia', tx: 10, ty: 1, dir: 'down' },
+      { x: 9, y: 0, to: 'keykeep', tx: 9, ty: 17, dir: 'up', needs: 4 },
+      { x: 10, y: 0, to: 'keykeep', tx: 10, ty: 17, dir: 'up', needs: 4 },
+      { x: 5, y: 3, gym: 'brackett', tx: 6, ty: 7, dir: 'up' },
+      { x: 15, y: 3, to: 'center', tx: 5, ty: 6, dir: 'up' }
+    ],
+    objects: [
+      { type: 'npc', id: 'stack_kid', sprite: 'kid', x: 13, y: 10, dir: 'left', talk: 'stack_kid' },
+      { type: 'npc', id: 'rex3', sprite: 'rival', x: 9, y: 10, dir: 'down', sight: 4, hideFlag: 'beat_rex3', talk: 'rex_stack' },
+      { type: 'npc', id: 'grunt3', sprite: 'grunt', x: 10, y: 5, dir: 'down', sight: 4, hideFlag: 'beat_grunt3', talk: 'grunt3' },
+      { type: 'sign', x: 3, y: 13, text: ['STACKTON', 'Order is a promise.', 'BRACKETT gym: west.'] }
+    ],
+    encounters: [
+      { sp: 'listrix', min: 17, max: 20, w: 3 },
+      { sp: 'strigor', min: 17, max: 20, w: 2 },
+      { sp: 'dictling', min: 18, max: 21, w: 2 },
+      { sp: 'booleon', min: 18, max: 20, w: 1 }
+    ]
+  };
+
+  D.MAPS.keykeep = {
+    name: 'KEYKEEP',
+    w: 20, h: 18,
+    tiles: [
+      '#########..#########',
+      '#........==........#',
+      '#..rrrr..==..rrrr..#',
+      '#..rrrr..==..rrrr..#',
+      '#..wwDww.==.wwDww..#',
+      '#........==........#',
+      '#..~~~~..==..~~~~..#',
+      '#..~~~~..==..~~~~..#',
+      '#..,,,,..==..,,,,..#',
+      '#..S,,,,.==..,,,,..#',
+      '#........==........#',
+      '#..~~~~..==..~~~~..#',
+      '#..~~~~..==..~~~~..#',
+      '#..rrrrr.==.rrrrr..#',
+      '#..rrrrr.==.rrrrr..#',
+      '#..wwDww.==.wwDww..#',
+      '#........==........#',
+      '#########..#########'
+    ],
+    warps: [
+      { x: 9, y: 17, to: 'stackton', tx: 9, ty: 1, dir: 'down' },
+      { x: 10, y: 17, to: 'stackton', tx: 10, ty: 1, dir: 'down' },
+      { x: 9, y: 0, to: 'slicecliff', tx: 9, ty: 17, dir: 'up', needs: 5 },
+      { x: 10, y: 0, to: 'slicecliff', tx: 10, ty: 17, dir: 'up', needs: 5 },
+      { x: 5, y: 15, gym: 'dictus', tx: 6, ty: 7, dir: 'up' },
+      { x: 14, y: 15, to: 'center', tx: 5, ty: 6, dir: 'up' }
+    ],
+    objects: [
+      { type: 'npc', id: 'key_archivist', sprite: 'prof', x: 13, y: 10, dir: 'left', talk: 'key_archivist' },
+      { type: 'npc', id: 'grunt4', sprite: 'grunt', x: 9, y: 6, dir: 'down', sight: 4, hideFlag: 'beat_grunt4', talk: 'grunt4' },
+      { type: 'sign', x: 3, y: 9, text: ['KEYKEEP', 'Every value has a key.', 'DICTUS gym: south-west.'] }
+    ],
+    encounters: [
+      { sp: 'dictling', min: 21, max: 24, w: 3 },
+      { sp: 'intiger', min: 21, max: 24, w: 2 },
+      { sp: 'lexicon', min: 22, max: 25, w: 2 },
+      { sp: 'booleon', min: 22, max: 24, w: 1 }
+    ]
+  };
+
+  D.MAPS.slicecliff = {
+    name: 'SLICECLIFF',
+    w: 20, h: 18,
+    tiles: [
+      '#########..#########',
+      '#..rrrrr.==........#',
+      '#..rrrrr.==........#',
+      '#..wwDww.==........#',
+      '#........==........#',
+      '#..R..R..==..R..R..#',
+      '#..R..R..==..R..R..#',
+      '#........==........#',
+      '#..,,,,..==........#',
+      '#..,,,,..==........#',
+      '#........==..rrrrr.#',
+      '#........==..rrrrr.#',
+      '#........==..wwDww.#',
+      '#..R..R..==........#',
+      '#..R..R..==........#',
+      '#..S.....==........#',
+      '#........==........#',
+      '#########..#########'
+    ],
+    warps: [
+      { x: 9, y: 17, to: 'keykeep', tx: 9, ty: 1, dir: 'down' },
+      { x: 10, y: 17, to: 'keykeep', tx: 10, ty: 1, dir: 'down' },
+      { x: 9, y: 0, to: 'loophaven', tx: 9, ty: 17, dir: 'up', needs: 6 },
+      { x: 10, y: 0, to: 'loophaven', tx: 10, ty: 17, dir: 'up', needs: 6 },
+      { x: 5, y: 3, gym: 'slicer', tx: 6, ty: 7, dir: 'up' },
+      { x: 15, y: 12, to: 'center', tx: 5, ty: 6, dir: 'up' }
+    ],
+    objects: [
+      { type: 'npc', id: 'slice_kid', sprite: 'kid', x: 12, y: 8, dir: 'left', talk: 'slice_kid' },
+      { type: 'sign', x: 3, y: 15, text: ['SLICECLIFF', 'Take only what you need.', 'SLICER gym: north-west.'] }
+    ],
+    encounters: [
+      { sp: 'strigor', min: 25, max: 28, w: 3 },
+      { sp: 'lexicon', min: 25, max: 28, w: 2 },
+      { sp: 'megalist', min: 26, max: 29, w: 1 },
+      { sp: 'keylord', min: 26, max: 28, w: 1 }
+    ]
+  };
+
+  D.MAPS.loophaven = {
+    name: 'LOOPHAVEN',
+    w: 20, h: 18,
+    tiles: [
+      '#########..#########',
+      '#........==........#',
+      '#..rrrrr.==..rrrrr.#',
+      '#..rrrrr.==..rrrrr.#',
+      '#..wwDww.==..wwDww.#',
+      '#........==........#',
+      '#~~~~~~~~==~~~~~~~~#',
+      '#~~~~~~~~==~~~~~~~~#',
+      '#........==........#',
+      '#..S.....==........#',
+      '#..,,,,..==..,,,,..#',
+      '#..,,,,..==..,,,,..#',
+      '#........==........#',
+      '#..rrrrr.==.rrrrr..#',
+      '#..rrrrr.==.rrrrr..#',
+      '#..wwDww.==.wwDww..#',
+      '#........==........#',
+      '#########..#########'
+    ],
+    warps: [
+      { x: 9, y: 17, to: 'slicecliff', tx: 9, ty: 1, dir: 'down' },
+      { x: 10, y: 17, to: 'slicecliff', tx: 10, ty: 1, dir: 'down' },
+      { x: 9, y: 0, to: 'corecity', tx: 9, ty: 17, dir: 'up', needs: 7 },
+      { x: 10, y: 0, to: 'corecity', tx: 10, ty: 17, dir: 'up', needs: 7 },
+      { x: 5, y: 15, gym: 'looper', tx: 6, ty: 7, dir: 'up' },
+      { x: 14, y: 15, to: 'center', tx: 5, ty: 6, dir: 'up' }
+    ],
+    objects: [
+      { type: 'npc', id: 'loop_harbor', sprite: 'kid', x: 13, y: 10, dir: 'left', talk: 'loop_harbor' },
+      { type: 'npc', id: 'grunt5', sprite: 'grunt', x: 10, y: 8, dir: 'down', sight: 4, hideFlag: 'beat_grunt5', talk: 'grunt5' },
+      { type: 'sign', x: 3, y: 9, text: ['LOOPHAVEN', 'Every loop needs an exit.', 'LOOPER gym: south-west.'] }
+    ],
+    encounters: [
+      { sp: 'listrix', min: 27, max: 31, w: 3 },
+      { sp: 'megalist', min: 28, max: 32, w: 2 },
+      { sp: 'strigor', min: 27, max: 30, w: 2 },
+      { sp: 'dictling', min: 28, max: 31, w: 1 }
+    ]
+  };
+
+  D.MAPS.corecity = {
+    name: 'CORE CITY',
+    w: 20, h: 18,
+    tiles: [
+      '####################',
+      '#..rrrrrrrrrrrrr...#',
+      '#..rrrrrrrrrrrrr...#',
+      '#..wwwwwwDwwwwww...#',
+      '#........==........#',
+      '#..rrrrr.==..rrrrr.#',
+      '#..rrrrr.==..rrrrr.#',
+      '#..wwDww.==..wwDww.#',
+      '#........==........#',
+      '#..~~~~~.==.~~~~~..#',
+      '#..~~~~~.==.~~~~~..#',
+      '#........==........#',
+      '#..S.....==........#',
+      '#..,,,,..==..,,,,..#',
+      '#..,,,,..==..,,,,..#',
+      '#........==........#',
+      '#........==........#',
+      '#########..#########'
+    ],
+    warps: [
+      { x: 9, y: 17, to: 'loophaven', tx: 9, ty: 1, dir: 'down' },
+      { x: 10, y: 17, to: 'loophaven', tx: 10, ty: 1, dir: 'down' },
+      { x: 9, y: 3, to: 'tower', tx: 6, ty: 9, dir: 'up', needs: 8 },
+      { x: 5, y: 7, gym: 'vector', tx: 6, ty: 7, dir: 'up' },
+      { x: 15, y: 7, to: 'center', tx: 5, ty: 6, dir: 'up' }
+    ],
+    objects: [
+      { type: 'npc', id: 'ada_core', sprite: 'prof', x: 11, y: 4, dir: 'left', talk: 'ada' },
+      { type: 'npc', id: 'rex4', sprite: 'rival', x: 10, y: 10, dir: 'down', sight: 4, hideFlag: 'beat_rex4', talk: 'rex_core' },
+      { type: 'npc', id: 'core_kid', sprite: 'kid', x: 13, y: 12, dir: 'left', talk: 'core_kid' },
+      { type: 'sign', x: 3, y: 12, text: ['CORE CITY', 'The last gate.', 'TRACEBACK TOWER: north.'] }
+    ],
+    encounters: [
+      { sp: 'intiger', min: 30, max: 33, w: 3 },
+      { sp: 'megalist', min: 30, max: 33, w: 2 },
+      { sp: 'lexicon', min: 31, max: 34, w: 2 },
+      { sp: 'truthwyrm', min: 33, max: 35, w: 1 }
     ]
   };
 
@@ -637,7 +909,7 @@
       '|||||||||||||'
     ],
     warps: [
-      { x: 6, y: 9, to: 'indentia', tx: 15, ty: 16, dir: 'down' }
+      { x: 6, y: 9, to: 'corecity', tx: 9, ty: 4, dir: 'down' }
     ],
     objects: [
       { type: 'npc', id: 'null', sprite: 'grunt', x: 6, y: 2, dir: 'down', talk: 'null' }
@@ -663,7 +935,7 @@
       '|||||||||||||'
     ],
     warps: [
-      { x: 6, y: 9, to: 'indentia', tx: 15, ty: 16, dir: 'down' }
+      { x: 6, y: 9, to: 'corecity', tx: 9, ty: 4, dir: 'down' }
     ],
     objects: [
       { type: 'altar', x: 6, y: 6 }
@@ -771,6 +1043,63 @@
                   'KID: Ask with get and you can give a default.']);
   };
 
+  S.verdant_dojo = async function () {
+    await PM.say(['KID: The old dojo is closed.',
+                  'KID: SLICER moved north to SLICECLIFF.']);
+  };
+
+  S.route1_dojo = async function () {
+    await PM.say(['KID: The trail gym is closed.',
+                  'KID: LOOPER moved north to LOOPHAVEN.']);
+  };
+
+  S.byte_old_gym = async function () {
+    await PM.say(['PROF: The old gyms are closed.',
+                  'PROF: BITFORD trains at the south gym.',
+                  'PROF: BOOLE moved to BOOL BRIDGE. DICTUS moved to KEYKEEP.']);
+  };
+
+  S.indentia_old_gym = async function () {
+    await PM.say(['KID: The old east gym is closed.',
+                  'KID: BRACKETT moved north to STACKTON.']);
+  };
+
+  S.old_tower = async function () {
+    await PM.say(['GUARD: The old tower gate is sealed.',
+                  'GUARD: TRACEBACK TOWER moved to CORE CITY.',
+                  'GUARD: Eight badges open the new gate.']);
+  };
+
+  S.stack_kid = async function () {
+    await PM.say(['KID: Brackett checks every gap in a list.',
+                  'KID: A list is only as good as its order.',
+                  'KID: append adds one item at the end.']);
+  };
+
+  S.key_archivist = async function () {
+    await PM.say(['ARCHIVIST: A dict stores values by key.',
+                  'ARCHIVIST: A missing key raises KeyError.',
+                  'ARCHIVIST: get returns a default instead.']);
+  };
+
+  S.slice_kid = async function () {
+    await PM.say(['KID: SLICER cuts at the start and stops before the end.',
+                  'KID: s[1:4] keeps 1, 2, and 3.',
+                  'KID: Negative indexes count from the back.']);
+  };
+
+  S.loop_harbor = async function () {
+    await PM.say(['KID: The harbor loops around the bay.',
+                  'KID: A for loop visits every item once.',
+                  'KID: Always know where the loop stops.']);
+  };
+
+  S.core_kid = async function () {
+    await PM.say(['KID: The tower gate needs eight badges.',
+                  'KID: Null has been waiting at the top.',
+                  'KID: VECTOR is the last gym. He tests INT.']);
+  };
+
   S.rex_lab = async function () {
     if (!PM.flag('starter')) {
       await PM.say(['REX: I already picked mine.', 'REX: You are too slow, as usual.']);
@@ -806,21 +1135,32 @@
                     'ADA: In battle, every move asks you a Python question.']);
       return;
     }
-    if (got < 3) {
-      await PM.say(['ADA: BYTEBURG has three gyms.',
-                    'ADA: BITFORD tests INT. DICTUS tests DICT. BOOLE tests BOOL.',
-                    'ADA: Earn those three, then head north.']);
+    if (got === 1) {
+      await PM.say(['ADA: One badge. BOOLE waits at BOOL BRIDGE.',
+                    'ADA: Take the south road from BYTEBURG.',
+                    'ADA: BOOL asks you to choose true or false.']);
       return;
     }
-    if (got < 8) {
+    if (got === 2) {
+      await PM.say(['ADA: Two badges. INDENTIA is north of BOOL BRIDGE.',
+                    'ADA: QUOTIA tests STR. The north gate needs three badges.',
+                    'ADA: Team Traceback is taking Source Shards along the road.']);
+      return;
+    }
+    if (got >= 3 && got < 8) {
+      var next = [
+        'STACKTON is north. BRACKETT tests LIST.',
+        'KEYKEEP is north. DICTUS tests DICT.',
+        'SLICECLIFF is north. SLICER tests slicing.',
+        'LOOPHAVEN is north. LOOPER tests loops.',
+        'CORE CITY is north. VECTOR tests INT. Then the tower.'
+      ][got - 3];
       await PM.say(['ADA: ' + got + ' badges. ' + (8 - got) + ' more are waiting.',
-                    'ADA: QUOTIA and BRACKETT are in INDENTIA.',
-                    'ADA: SLICER is in VERDANT. LOOPER is on ROUTE 1.',
-                    'ADA: VECTOR waits on ROUTE 2.',
+                    'ADA: ' + next,
                     'ADA: Team Traceback is stealing Source Shards.']);
       return;
     }
-    await PM.say(['ADA: Eight badges. You are ready for the tower.',
+    await PM.say(['ADA: Eight badges. The tower gate is open.',
                   'ADA: Null is at the top. Do not let him reach the Source.',
                   'ADA: And remember: a loop with no exit is not a program.']);
   };
@@ -880,23 +1220,136 @@
     if (r === 'win') {
       PM.setFlag('beat_grunt1');
       await PM.say(['GRUNT: Null will hear about this.',
-                    'GRUNT: He is at the tower in INDENTIA. Try and stop him.']);
+                    'GRUNT: He is collecting every shard in CORE CITY.']);
     }
   };
 
   S.grunt2 = async function () {
     if (PM.flag('beat_grunt2')) {
-      await PM.say(['GRUNT: The tower is open. He is waiting for you.']);
+      await PM.say(['GRUNT: The north gate still needs three badges.']);
       return;
     }
-    await PM.say(['GRUNT: This tower is closed.',
-                  'GRUNT: Null does not take visitors.',
-                  'GRUNT: Especially not trainers with eight badges.']);
+    var got = 0;
+    for (var i = 1; i <= 8; i++) { if (PM.flag('badge' + i)) got++; }
+    if (got >= 3) {
+      await PM.say(['GRUNT: Three badges. The gate is open.',
+                    'GRUNT: Null will deal with you himself.']);
+      return;
+    }
+    await PM.say(['GRUNT: This gate is closed.',
+                  'GRUNT: Three badges open it. You have fewer.',
+                  'GRUNT: Turn around before I make it zero.']);
     var r = await PM.battle('trainer', 'grunt2');
     if (r === 'win') {
       PM.setFlag('beat_grunt2');
       if (PM.world.removeNpc) PM.world.removeNpc('grunt2');
-      await PM.say(['GRUNT: Fine. Go up.', 'GRUNT: He will delete you too.']);
+      await PM.say(['GRUNT: Fine. The gate still needs three badges.',
+                    'GRUNT: That is not my problem any more.']);
+    }
+  };
+
+  S.rex_bool = async function () {
+    if (PM.flag('beat_rex2')) {
+      await PM.say(['REX: Boole is inside. Go on.']);
+      return;
+    }
+    await PM.say(['REX: You again. I found a shortcut.',
+                  'REX: Boole says my logic is sloppy. Let us test yours.']);
+    var r = await PM.battle('trainer', 'rex2');
+    if (r === 'win') {
+      PM.setFlag('beat_rex2');
+      if (PM.world.removeNpc) PM.world.removeNpc('rex2');
+      PM.give('potion', 2);
+      await PM.say(['REX: Fine. You read the branch better than I did.',
+                    'REX: Take these potions. I have more.']);
+    } else {
+      await PM.say(['REX: True or false. Today that was false.']);
+    }
+  };
+
+  S.rex_stack = async function () {
+    if (PM.flag('beat_rex3')) {
+      await PM.say(['REX: Brackett is inside. I am still taking notes.']);
+      return;
+    }
+    await PM.say(['REX: I have been waiting in this city.',
+                  'REX: Quotia says my team has no order. Show me yours.']);
+    var r = await PM.battle('trainer', 'rex3');
+    if (r === 'win') {
+      PM.setFlag('beat_rex3');
+      if (PM.world.removeNpc) PM.world.removeNpc('rex3');
+      PM.give('capsule', 3);
+      await PM.say(['REX: You keep winning. I keep taking notes.',
+                    'REX: Take these capsules. I am not being nice.']);
+    } else {
+      await PM.say(['REX: Order wins. I told you.']);
+    }
+  };
+
+  S.rex_core = async function () {
+    if (PM.flag('beat_rex4')) {
+      await PM.say(['REX: The tower gate is open. Go and finish this.']);
+      return;
+    }
+    await PM.say(['REX: This is the last gate before the tower.',
+                  'REX: I want one clean battle. No shortcuts.']);
+    var r = await PM.battle('trainer', 'rex4');
+    if (r === 'win') {
+      PM.setFlag('beat_rex4');
+      if (PM.world.removeNpc) PM.world.removeNpc('rex4');
+      PM.healParty();
+      await PM.say(['REX: Good. You are ready for Null.',
+                    'REX: I healed your team. I will hold the gate.']);
+    } else {
+      await PM.say(['REX: Not yet. Train, then come back.']);
+    }
+  };
+
+  S.grunt3 = async function () {
+    if (PM.flag('beat_grunt3')) {
+      await PM.say(['GRUNT: The Stack Shard is gone. Null has it.']);
+      return;
+    }
+    await PM.say(['GRUNT: The Stack Shard belongs to Team Traceback.',
+                  'GRUNT: Brackett is too slow to stop us.']);
+    var r = await PM.battle('trainer', 'grunt3');
+    if (r === 'win') {
+      PM.setFlag('beat_grunt3');
+      if (PM.world.removeNpc) PM.world.removeNpc('grunt3');
+      await PM.say(['GRUNT: You are making a list of enemies.',
+                    'GRUNT: Null is collecting every shard in CORE CITY.']);
+    }
+  };
+
+  S.grunt4 = async function () {
+    if (PM.flag('beat_grunt4')) {
+      await PM.say(['GRUNT: The archive is yours. For now.']);
+      return;
+    }
+    await PM.say(['GRUNT: This archive is under new management.',
+                  'GRUNT: Every key belongs to Null now.']);
+    var r = await PM.battle('trainer', 'grunt4');
+    if (r === 'win') {
+      PM.setFlag('beat_grunt4');
+      if (PM.world.removeNpc) PM.world.removeNpc('grunt4');
+      await PM.say(['GRUNT: The archive is yours. For now.',
+                    'GRUNT: The last shard is at the cliffs.']);
+    }
+  };
+
+  S.grunt5 = async function () {
+    if (PM.flag('beat_grunt5')) {
+      await PM.say(['GRUNT: CORE CITY is open. He is waiting.']);
+      return;
+    }
+    await PM.say(['GRUNT: The harbor shard is ours.',
+                  'GRUNT: You are too late to close this loop.']);
+    var r = await PM.battle('trainer', 'grunt5');
+    if (r === 'win') {
+      PM.setFlag('beat_grunt5');
+      if (PM.world.removeNpc) PM.world.removeNpc('grunt5');
+      await PM.say(['GRUNT: Then go north. Null will delete you with the rest.',
+                    'GRUNT: CORE CITY is open. He is waiting.']);
     }
   };
 
@@ -924,10 +1377,10 @@
 
   var BADGE = {
     bitford: { flag: 'badge1', name: 'BIT BADGE', color: 'INT' },
-    quotia: { flag: 'badge2', name: 'WORD BADGE', color: 'STR' },
-    brackett: { flag: 'badge3', name: 'STACK BADGE', color: 'LIST' },
-    dictus: { flag: 'badge4', name: 'KEY BADGE', color: 'DICT' },
-    boole: { flag: 'badge5', name: 'TRUTH BADGE', color: 'BOOL' },
+    boole: { flag: 'badge2', name: 'TRUTH BADGE', color: 'BOOL' },
+    quotia: { flag: 'badge3', name: 'WORD BADGE', color: 'STR' },
+    brackett: { flag: 'badge4', name: 'STACK BADGE', color: 'LIST' },
+    dictus: { flag: 'badge5', name: 'KEY BADGE', color: 'DICT' },
     slicer: { flag: 'badge6', name: 'SLICE BADGE', color: 'STR' },
     looper: { flag: 'badge7', name: 'LOOP BADGE', color: 'LIST' },
     vector: { flag: 'badge8', name: 'CORE BADGE', color: 'INT' }
