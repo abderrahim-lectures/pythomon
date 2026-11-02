@@ -19,15 +19,17 @@ Stage 0, before the first gym. The intro scene shows values on screen. Sources: 
 
 Stage 1, Bitford gym, topic int. Numbers, operators and variables. Sources: The Python Tutorial, section 3.1.1. Think Python, chapter 2, Variables and Statements. Python for Everybody, chapter 2, Variables.
 
-Stage 2, the trainer between gyms, topic bool. Decisions and comparisons. Sources: The Python Tutorial, section 4.1 and section 5.7, More on Conditions. Think Python, chapter 5, Conditionals and Recursion. Python for Everybody, chapter 3, Conditionals.
+Stage 2, Boole gym on Bool Bridge, topic bool. Decisions and comparisons. Sources: The Python Tutorial, section 4.1 and section 5.7, More on Conditions. Think Python, chapter 5, Conditionals and Recursion. Python for Everybody, chapter 3, Conditionals.
 
 Stage 3, Quotia gym, topic str. Strings and parts of strings. Sources: The Python Tutorial, section 3.1.2. Think Python, chapter 8, Strings and Regular Expressions. Python for Everybody, chapter 6, Strings.
 
 Stage 4, Brackett gym, topic list. Lists and their methods. Sources: The Python Tutorial, section 3.1.3 and section 5.1, More on Lists. Think Python, chapter 9, Lists. Python for Everybody, chapter 8, Lists.
 
-Stage 5, the trainer after Brackett, topic dict. Keys and values. Sources: The Python Tutorial, section 5.5. Think Python, chapter 10, Dictionaries. Python for Everybody, chapter 9, Dictionaries.
+Stage 5, Dictus gym, topic dict. Keys and values. Sources: The Python Tutorial, section 5.5. Think Python, chapter 10, Dictionaries. Python for Everybody, chapter 9, Dictionaries.
 
-Stage 6, the class battles, topic class. Classes, methods and objects. Sources: The Python Tutorial, chapter 9. Think Python, chapters 14 to 17, on classes and inheritance. Python for Everybody, chapter 14, Python Objects.
+Stage 6, Slicer and Looper gyms, topics str and list practice. Slices and loops over lists. Sources: The Python Tutorial, section 3.1.2, section 3.1.3 and section 5.1. Think Python, chapter 8 and chapter 9. Python for Everybody, chapter 6 and chapter 8.
+
+Stage 7, the tower battle, topic class. Classes, methods and objects. Sources: The Python Tutorial, chapter 9. Think Python, chapters 14 to 17, on classes and inheritance. Python for Everybody, chapter 14, Python Objects.
 
 ## Question design
 
