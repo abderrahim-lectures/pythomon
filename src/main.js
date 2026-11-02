@@ -663,9 +663,9 @@
     PM.text('TIER ' + PM.state.tier.toUpperCase().slice(0, 3), 10, 74, PM.C.grey);
     PM.text('BADGES', 10, 87, PM.C.grey);
     var flags = [
-      ['badge1', '#e0603f'], ['badge2', '#4a9fd8'],
-      ['badge3', '#d8a63b'], ['badge4', '#9b6cd8'],
-      ['badge5', '#5cc46a'], ['badge6', '#4a9fd8'],
+      ['badge1', '#e0603f'], ['badge2', '#5cc46a'],
+      ['badge3', '#4a9fd8'], ['badge4', '#d8a63b'],
+      ['badge5', '#9b6cd8'], ['badge6', '#4a9fd8'],
       ['badge7', '#d8a63b'], ['badge8', '#e0603f']
     ];
     flags.forEach(function (b, i) {
