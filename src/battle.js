@@ -142,6 +142,9 @@
     var changed = false;
     if (seen.indexOf(ch.id) < 0) {
       seen.push(ch.id);
+      // Live-AI question ids are unique, so this list would otherwise grow for
+      // the whole life of the save; keep it bounded like battleCodes.
+      if (seen.length > 400) seen.shift();
       changed = true;
     }
     var code = String(ch.code || ch.starter || '').replace(/\s+/g, ' ').trim();

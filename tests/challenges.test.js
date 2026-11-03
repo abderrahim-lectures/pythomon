@@ -1,5 +1,6 @@
 import { beforeAll, describe, expect, it, vi } from 'vitest';
 import { execFileSync } from 'node:child_process';
+import { readFileSync } from 'node:fs';
 
 beforeAll(async () => {
   vi.stubGlobal('PM', { pick: (items) => items[0] });
@@ -211,3 +212,11 @@ describe('challenge bank integrity', () => {
     expect(problems).toEqual([]);
   });
 });
+  it.runIf(hasPython())('ships an AI bank whose answers are also correct', () => {
+    // The static answers in src/ai-bank.json go through the same checker as the
+    // built-in bank, but nothing else exercises their content.
+    const bank = JSON.parse(readFileSync(new URL('../src/ai-bank.json', import.meta.url), 'utf8'));
+    const questions = bank.map((q, i) => ({ ...q, id: 'bank-' + i }));
+    expect(questions.length).toBeGreaterThan(0);
+    expect(audit(questions)).toEqual([]);
+  });

@@ -105,7 +105,8 @@ question header reads BATTLE. Long code prompts wrap at 18 characters.
 
 Decision 19: calm walk and water animation. Serves instruction 5. The player
 walk frame changes every 8 ticks, so one step shows two poses instead of four.
-NPC walk frames change every 280 ticks. Water highlights move every 200 ticks,
+NPCs stand still: the drawing code accepts a walk flag, but no map object sets
+it. Water highlights move every 200 ticks,
 water edge sparkles every 240 ticks, and the lake glint every 320 ticks.
 
 Decision 20: One checked bank generator. Serves instruction 10. `npm run

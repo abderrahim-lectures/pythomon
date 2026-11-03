@@ -27,3 +27,29 @@ test('desktop hints keep keyboard labels', async ({ page }) => {
   const hint = await page.evaluate(() => PM.pc.inspect().hint);
   expect(hint).toBe('CTRL+ENTER · ESC');
 });
+
+test.describe('a narrow phone', () => {
+  test.use({ viewport: { width: 320, height: 568 }, isMobile: true, hasTouch: true });
+
+  test('keeps the whole console on screen', async ({ page }) => {
+    await page.goto('/');
+    await expect(page.locator('canvas')).toBeVisible();
+    const fit = await page.evaluate(() => {
+      const c = document.querySelector('#game').getBoundingClientRect();
+      const inner = document.querySelector('.bezel-inner').getBoundingClientRect();
+      const consoleBox = document.querySelector('.console').getBoundingClientRect();
+      return {
+        scale: getComputedStyle(document.documentElement).getPropertyValue('--scale').trim(),
+        canvasWidth: Math.round(c.width),
+        clippedRight: c.right - inner.right,
+        offscreen: consoleBox.left < 0 || consoleBox.right > window.innerWidth,
+        overflowX: document.documentElement.scrollWidth - document.documentElement.clientWidth
+      };
+    });
+    expect(fit.clippedRight).toBeLessThanOrEqual(0);
+    expect(fit.offscreen).toBe(false);
+    expect(fit.overflowX).toBe(0);
+    // still big enough to read the 8px font: at least 1.5x
+    expect(fit.canvasWidth).toBeGreaterThanOrEqual(240);
+  });
+});

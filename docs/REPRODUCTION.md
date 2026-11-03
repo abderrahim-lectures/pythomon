@@ -57,7 +57,9 @@ npm run test:e2e
 
 The Vitest suite runs in a Node environment. It covers the challenge
 selection logic, the integrity of the whole challenge bank, the AI
-challenger client and the dialogue box. The bank check runs every
+challenger client, the dialogue box and the map data: tile grids, warps,
+doors, badge gates and trainers, including that every door lands next to
+the way back. The bank check runs every
 multiple-choice, fill and code answer through CPython when `python3` is
 on the path, and is skipped otherwise. Use `npm run test:watch` for
 watch mode.
@@ -75,6 +77,9 @@ starts its own Vite server on port 4173 and checks that:
 - the house creature gives its potion exactly once;
 - a malformed save still loads a sane state, and a save pointing into a
   wall respawns on a walkable tile;
+- the canvas fits its bezel, and the console fits a 320px phone;
+- beating Null leaves a way back to the Source, and a gift reaches the save;
+- multiple choice options are shuffled but still gradeable;
 - the touch hints name the on-screen buttons and the desktop hints name
   the keys.
 

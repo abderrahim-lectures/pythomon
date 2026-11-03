@@ -31,12 +31,17 @@
     PM.state.party.forEach(function (m) {
       m.hp = PM.monStats(m).maxHp;
     });
+    // A heal must reach the save, or a reload takes it back.
+    if (PM.autosave) PM.autosave();
   };
   PM.give = function (kind, n) {
     if (!PM.state) return;
     n = n || 1;
     if (kind === 'potion') PM.state.potions += n;
     else if (kind === 'capsule') PM.state.capsules += n;
+    // Scripts set their "already given" flag before awarding, and the flag
+    // saves immediately: the items have to be saved here or they are lost.
+    if (PM.autosave) PM.autosave();
   };
   PM.setFlag = function (k, v) {
     if (!PM.state) return;
@@ -172,7 +177,9 @@
       var spot = safePlace(st.map, st.x, st.y) || safePlace('home', 5, 5);
       if (!spot) return false;
       PM.state = st;
-      PM.world.gym = s.gym && s.gym.leader ? { leader: s.gym.leader } : null;
+      // Only a real leader id can rebuild a gym; anything else would leave a
+      // gym whose leader script cannot start a battle.
+      PM.world.gym = s.gym && PM.data.trainers[s.gym.leader] ? { leader: s.gym.leader } : null;
       PM.world.gymReturn = restoreReturn(s.gymReturn);
       PM.world.centerReturn = restoreReturn(s.centerReturn);
       var last = safePlace(s.lastCenter && s.lastCenter.map, s.lastCenter && s.lastCenter.x,
@@ -845,13 +852,21 @@
   }
 
   /* ---------------- scale ---------------- */
+  // The page has to fit the canvas plus the console chrome around it: on a
+  // narrow phone an integer scale of 2 does not fit, and the old floor of 2
+  // cut the screen edges off (the page hides horizontal overflow). Keep whole
+  // steps from 2 up (sharp pixels); below that use quarter steps so a small
+  // phone still fills its width.
   function resize() {
     var touch = PM.isTouch();
-    var chrome = touch ? 290 : 270;
-    var maxW = window.innerWidth - (touch ? 40 : 96);
-    var maxH = window.innerHeight - chrome;
+    var chromeY = touch ? 290 : 270;
+    var chromeX = touch ? 64 : 96;
+    var maxW = window.innerWidth - chromeX;
+    var maxH = window.innerHeight - chromeY;
     var s = Math.min(maxW / 160, maxH / 144);
-    s = Math.max(2, Math.min(6, Math.floor(s)));
+    s = Math.min(6, Math.max(0, s));
+    if (s >= 2) s = Math.floor(s);
+    else s = Math.max(1, Math.round(s * 4) / 4);
     document.documentElement.style.setProperty('--scale', String(s));
   }
 
