@@ -175,14 +175,26 @@
         S.cc = ci + 4;
         S.hole = { li: li, start: ci, end: ci + 4, done: false };
       } else {
-        S.cl = 0;
-        S.cc = S.lines[0].length;
+        // No blank to fill: the answer goes at the end of the last line (a
+        // starter such as 'd = {...}\nresult = ' ends where the answer belongs).
+        S.cl = S.lines.length - 1;
+        S.cc = S.lines[S.cl].length;
       }
     } else {
       var srcLines = String(ch.code || '').split('\n');
       S.wrapped = [];
       for (var j = 0; j < srcLines.length; j++) {
         S.wrapped = S.wrapped.concat(wrapCodeLine(srcLines[j], WRAP));
+      }
+      // The correct option is the first one in most of the bank, so an
+      // untouched selection would answer it. Show the options in a fresh
+      // order and keep the mapping for checking.
+      S.order = (ch.options || []).map(function (_, idx) { return idx; });
+      for (var sh = S.order.length - 1; sh > 0; sh--) {
+        var sw = Math.floor(Math.random() * (sh + 1));
+        var tmp = S.order[sh];
+        S.order[sh] = S.order[sw];
+        S.order[sw] = tmp;
       }
     }
   }
@@ -333,7 +345,9 @@
     } else if (k === 'Enter') {
       editNewline();
     } else if (k === 'Tab') {
-      editInsert('    ', false);
+      // Indenting at the blank replaces the placeholder: inserting after it
+      // would leave '____' in the program the runner checks.
+      editInsert('    ', true);
     } else if (k === 'Escape') {
       close(null);
       return;
@@ -480,7 +494,8 @@
 
   function answerMC(i) {
     if (!S || S.kind !== 'mc' || S.phase !== 'answer') return;
-    var ok = (i === S.ch.answer);
+    var order = S.order || [];
+    var ok = (order[i] === undefined ? i : order[i]) === S.ch.answer;
     feedback(ok, ok ? 'CORRECT' : 'WRONG', ok ? [] : answerNote(), explainLines(), false);
   }
 
@@ -580,8 +595,10 @@
     } else if (S.kind === 'mc') {
       var out = (ch.prompt || '') + ' ';
       var opts = ch.options || [];
+      var order = S.order || [];
       for (var i = 0; i < opts.length; i++) {
-        out += (i === S.sel ? 'selected ' : '') + opts[i] + '. ';
+        var shown = order[i] === undefined ? i : order[i];
+        out += (i === S.sel ? 'selected ' : '') + opts[shown] + '. ';
       }
       liveEl.textContent = out;
     } else if (S.kind === 'fill') {
@@ -658,6 +675,9 @@
     PM.rect(7, codeY + 1, 146, codeH - 2, C.code);
     var vis = Math.max(1, Math.floor((codeH - 4) / CODE_LH));
     var len = S.wrapped.length;
+    // Long snippets open on their last lines: the print the question asks
+    // about is at the bottom, and the scroll keys are easy to miss.
+    if (!S.codeInit) { S.codeInit = true; S.codeScroll = Math.max(0, len - vis); }
     var off = Math.max(0, Math.min(S.codeScroll, len - vis));
     if (off !== S.codeScroll) S.codeScroll = off;
     for (var i = 0; i < vis && off + i < len; i++) {
@@ -673,7 +693,7 @@
         PM.rect(7, y, 2, 9, C.gold);
       }
       tri(11, y + 2);
-      PM.text(String(opts[j]).slice(0, 17), 16, y + 1, isSel ? C.cream : C.ink, FONT_SM);
+      PM.text(String(opts[S.order ? S.order[j] : j]).slice(0, 17), 16, y + 1, isSel ? C.cream : C.ink, FONT_SM);
     }
   }
 
@@ -878,6 +898,8 @@
   PC.inspect = function () {
     if (!S) return null;
     var lay = S._lay || {};
+    var order = S.order || [];
+    var shown = (S.ch && S.ch.options ? order.map(function (i) { return S.ch.options[i]; }) : []);
     var out = {
       id: S.ch && S.ch.id,
       kind: S.kind,
@@ -890,7 +912,14 @@
       hint: hint(),
       off: lay.off,
       maxRows: lay.maxRows,
-      rowsTotal: lay.rowsTotal
+      rowsTotal: lay.rowsTotal,
+      // multiple choice: the options in display order and where the right one is
+      options: shown,
+      answerShown: S.kind === 'mc' ? order.indexOf(S.ch.answer) : -1,
+      codeScroll: S.codeScroll,
+      codeRows: (S.wrapped || []).length,
+      caretLine: S.cl,
+      caretLineText: (S.lines && S.lines[S.cl]) || ''
     };
     out.caretVisible = lay.caretRow !== undefined && lay.off !== undefined &&
       lay.caretRow >= lay.off && lay.caretRow < lay.off + lay.maxRows &&

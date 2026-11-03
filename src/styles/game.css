@@ -146,6 +146,10 @@ body {
 
 .bezel-inner {
   position: relative;
+  /* fit the canvas plus the 2px border on each side; without this the
+     canvas is 4px wider than the box and its right edge is clipped */
+  width: fit-content;
+  margin: 0 auto;
   border: 2px solid #263d34;
   border-radius: 6px;
   background: #0d1a14;

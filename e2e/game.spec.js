@@ -290,3 +290,84 @@ test('a save pointing inside a wall respawns on a walkable tile', async ({ page 
   expect(spot.lastCenterMap).toBe('home');
   expect(spot.x).not.toBe(0);
 });
+
+test('the canvas fits its bezel and never makes the page scroll', async ({ page }) => {
+  await page.goto('/');
+  await expect(page.locator('canvas')).toBeVisible();
+  const fit = await page.evaluate(() => {
+    const c = document.querySelector('#game').getBoundingClientRect();
+    const inner = document.querySelector('.bezel-inner').getBoundingClientRect();
+    const consoleBox = document.querySelector('.console').getBoundingClientRect();
+    return {
+      clippedRight: c.right - inner.right,
+      offscreen: consoleBox.left < 0 || consoleBox.right > window.innerWidth,
+      overflowX: document.documentElement.scrollWidth - document.documentElement.clientWidth
+    };
+  });
+  expect(fit.clippedRight).toBeLessThanOrEqual(0);
+  expect(fit.offscreen).toBe(false);
+  expect(fit.overflowX).toBe(0);
+});
+
+test('the Source stays reachable after beating Null', async ({ page }) => {
+  await page.goto('/?debug=world&map=tower&x=6&y=3');
+  await page.waitForFunction(() => window.PM && PM.world && PM.world.map);
+  await page.evaluate(() => {
+    PM.state.flags.beat_null = true;
+    PM.world.dir = 'up';
+    PM.ui.say = () => Promise.resolve();
+  });
+  await page.keyboard.press('Enter');
+  // no other map has a warp into the finale, so this exit has to reopen it
+  await page.waitForFunction(() => PM.world.mapId === 'finale', null, { timeout: 8000 });
+  expect(await page.evaluate(() => ({ x: PM.world.x, y: PM.world.y, dir: PM.world.dir })))
+    .toEqual({ x: 6, y: 8, dir: 'up' });
+});
+
+test('a gift is stored in the save as soon as it is given', async ({ page }) => {
+  await page.goto('/?debug=world&map=verdant&x=9&y=9');
+  await page.waitForFunction(() => window.PM && PM.world && PM.world.map);
+  const out = await page.evaluate(async () => {
+    localStorage.removeItem('pythomon.save.v1');
+    PM.world._suspendSave = false;
+    PM.state.flags = { starter: true };
+    PM.state.capsules = 3;
+    PM.state.potions = 2;
+    PM.ui.say = () => Promise.resolve();
+    await PM.scripts.ada(); // sets ada_gift, then gives 5 capsules and 3 potions
+    const stored = JSON.parse(localStorage.getItem('pythomon.save.v1'));
+    return {
+      live: [PM.state.capsules, PM.state.potions],
+      saved: [stored.state.capsules, stored.state.potions],
+      flagged: !!stored.state.flags.ada_gift
+    };
+  });
+  expect(out.saved).toEqual(out.live);
+  expect(out.saved).toEqual([8, 5]);
+  expect(out.flagged).toBe(true);
+});
+
+test('multiple choice answers are shuffled and still gradeable', async ({ page }) => {
+  await page.goto('/?debug=world&map=verdant&x=9&y=9');
+  await page.waitForFunction(() => window.PM && PM.world && PM.world.map);
+  const ids = await page.evaluate(() => Object.keys(PM.challenges.byId)
+    .filter((id) => PM.challenges.byId[id].kind === 'mc').slice(0, 8));
+  const positions = new Set();
+  for (const id of ids) {
+    await page.evaluate((id) => { window.__q = PM.challenges.byId[id]; window.__p = PM.pc.open(window.__q); }, id);
+    await page.waitForFunction(() => PM.pc.active);
+    const info = await page.evaluate(() => PM.pc.inspect());
+    // the shown options are the question's options in another order
+    expect(info.options.slice().sort()).toEqual(await page.evaluate(() => window.__q.options.slice().sort()));
+    expect(info.answerShown).toBeGreaterThanOrEqual(0);
+    positions.add(info.answerShown);
+    for (let i = 0; i < info.answerShown; i++) await page.keyboard.press('ArrowDown');
+    await page.keyboard.press('Enter');
+    await page.waitForFunction(() => (PM.pc.inspect() || {}).phase === 'feedback', null, { timeout: 5000 });
+    expect(await page.evaluate(() => document.getElementById('pc-live').textContent.startsWith('CORRECT'))).toBe(true);
+    await page.keyboard.press('Enter'); // CONTINUE
+    await page.waitForFunction(() => !PM.pc.active);
+  }
+  // the right answer is not always in the same place any more
+  expect(positions.size).toBeGreaterThan(1);
+});

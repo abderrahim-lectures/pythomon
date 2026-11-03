@@ -336,7 +336,7 @@
       '#........==...~~~~.#',
       '#.rrrrr..==...~~~~.#',
       '#.rrrrr..==...~~~~.#',
-      '#.wwDww..==........#',
+      '#.wwwww..==........#',
       '#........==........#',
       '#########..#########'
     ],
@@ -498,7 +498,7 @@
       '#........==........#',
       '#........==.rrrrr..#',
       '#..R.....==.rrrrr..#',
-      '#........==.wwDww..#',
+      '#........==.wwwww..#',
       '#..,,,,..==..,,,,..#',
       '#..,,,,..==..,,,,..#',
       '#........==........#',
@@ -537,12 +537,12 @@
       '#........==........#',
       '#..F.....==.rrrrr..#',
       '#........==.rrrrr..#',
-      '#..S.....==.wwDww..#',
+      '#..S.....==.wwwww..#',
       '#........==........#',
       '#..,,,,..==........#',
       '#.rrrrr..==..rrrrr.#',
       '#.rrrrr..==..rrrrr.#',
-      '#.wwDww..==..wwDww.#',
+      '#.wwwww..==..wwDww.#',
       '#........==........#',
       '#........==........#',
       '#........==........#',
@@ -610,8 +610,8 @@
       '#########..#########'
     ],
     warps: [
-      { x: 9, y: 17, to: 'byteburg', tx: 9, ty: 1, dir: 'down' },
-      { x: 10, y: 17, to: 'byteburg', tx: 10, ty: 1, dir: 'down' },
+      { x: 9, y: 17, to: 'byteburg', tx: 9, ty: 17, dir: 'up' },
+      { x: 10, y: 17, to: 'byteburg', tx: 10, ty: 17, dir: 'up' },
       { x: 9, y: 0, to: 'indentia', tx: 9, ty: 16, dir: 'up', needs: 2 },
       { x: 10, y: 0, to: 'indentia', tx: 10, ty: 16, dir: 'up', needs: 2 },
       { x: 14, y: 6, gym: 'boole', tx: 6, ty: 7, dir: 'up' }
@@ -648,7 +648,7 @@
       '#........==........#',
       '#..rrrr..==..rrrrr.#',
       '#..rrrr..==..rrrrr.#',
-      '#..wwDww.==..wwDww.#',
+      '#..wwwww.==..wwwww.#',
       '#........==........#',
       '#########..#########'
     ],
@@ -723,7 +723,7 @@
       '#........==........#',
       '#..rrrr..==..rrrr..#',
       '#..rrrr..==..rrrr..#',
-      '#..wwDww.==.wwDww..#',
+      '#..wwwww.==.wwwww..#',
       '#........==........#',
       '#..~~~~..==..~~~~..#',
       '#..~~~~..==..~~~~..#',
@@ -810,7 +810,7 @@
       '#........==........#',
       '#..rrrrr.==..rrrrr.#',
       '#..rrrrr.==..rrrrr.#',
-      '#..wwDww.==..wwDww.#',
+      '#..wwwww.==..wwwww.#',
       '#........==........#',
       '#~~~~~~~~==~~~~~~~~#',
       '#~~~~~~~~==~~~~~~~~#',
@@ -1177,9 +1177,12 @@
       await PM.say(['You step back. The ball waits.']);
       return;
     }
+    // Fill the party before the flags are saved: PM.setFlag writes the save
+    // immediately, and a save with `starter` set but an empty party would
+    // leave the player unable to pick a starter ever again.
+    PM.state.party = [PM.makeMon(sp, 5)];
     PM.setFlag('starter');
     PM.setFlag('starter_' + sp);
-    PM.state.party = [PM.makeMon(sp, 5)];
     await PM.say(['You received ' + spName + '!',
                   'ADA: That one has been waiting for you.',
                   'ADA: Come back to me after you meet Bitford.']);
@@ -1202,8 +1205,7 @@
     if (r === 'win') {
       PM.setFlag('beat_rex1');
       PM.give('potion', 1);
-      await PM.say(['REX: Lucky. That is all it was.',
-                    'REX: Take this potion. I do not need it.']);
+      await PM.say(['REX: Take this potion. I do not need it.']);
     } else {
       await PM.say(['REX: That is what I thought.']);
     }
@@ -1356,6 +1358,12 @@
   S.null = async function () {
     if (PM.flag('beat_null')) {
       await PM.say(['NULL: The Source is above. Do what you must.']);
+      // The tower has no other route to the Source, so reopen it: otherwise
+      // leaving the finale (its exit door, or a blackout after losing to
+      // Ouroboros) would make the ending unreachable for good.
+      await PM.fadeOut();
+      PM.warp('finale', 6, 8, 'up');
+      await PM.fadeIn();
       return;
     }
     await PM.say(['NULL: So the child arrives.',
@@ -1365,8 +1373,7 @@
     var r = await PM.battle('trainer', 'null');
     if (r === 'win') {
       PM.setFlag('beat_null');
-      await PM.say(['NULL: No. The loop must close. It must...',
-                    'NULL: Then close it yourself. See what a clean world costs.']);
+      await PM.say(['NULL: Then close it yourself. See what a clean world costs.']);
       await PM.fadeOut();
       PM.warp('finale', 6, 8, 'up');
       await PM.fadeIn();
@@ -1407,13 +1414,13 @@
                     tr.name + ': Then come back and we will talk.']);
       return;
     }
-    await PM.say(tr.intro);
+    // The battle scene speaks the intro (and the win line): saying them here
+    // as well made the player dismiss the same speech twice.
     var r = await PM.battle('trainer', id);
     if (r === 'win') {
       PM.setFlag(bd.flag);
       PM.give('capsule', 3);
       PM.give('potion', 2);
-      await PM.say(tr.win);
       await PM.say(['You received the ' + bd.name + '!',
                     tr.name + ': Three capsules and two potions. Take them.',
                     tr.name + ': ' + bd.color + ' pythomon will listen to you now.']);

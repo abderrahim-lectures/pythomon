@@ -108,6 +108,16 @@ integer scale capped at 2, with the feet on the platform. People draw at native
 
 ## Test evidence
 
+The repository ships 25 unit checks (`npm test`) and 18 browser checks
+(`npm run test:e2e`, see docs/REPRODUCTION.md), and both pass. The unit checks
+cover challenge selection, the whole question bank against CPython, the AI
+challenger, the dialogue box and the map data (tile grids, warps, doors, gates,
+trainers). The browser checks cover boot, movement, the eight gyms one per map,
+the badge gates, that every warp lands walkable and every outdoor map is one
+piece, the house creature's gift, corrupt saves, the route back to the Source,
+a gift reaching the save, shuffled multiple choice, and the canvas layout on a
+desktop and on a 320px phone.
+
 The development Playwright harness ran 28 checks. All passed. The checks cover boot, the 60
 people frames, both multiple choice outcomes, and the answer note. They cover three fills,
 canvas typing, caret placement and a Pyodide code question. They also cover
