@@ -5,12 +5,12 @@ Each entry names the instructions it serves.
 The instructions are in INSTRUCTIONS.md.
 
 Decision 1: one challenge source. Serves instruction 8. The game reads its
-questions from the pools in js/challenges.js. It calls no external API, so it
+questions from the pools in src/challenges.js. It calls no external API, so it
 works offline.
 
 Decision 2: curriculum order. Serves instruction 10. The topic order is
 numbers, decisions, text, lists, dicts, classes. It sits in one list in
-js/challenges.js. The gym order repeats the core topics for practice.
+src/challenges.js. The gym order repeats the core topics for practice.
 
 Decision 3: ranks. Serves instruction 10. A topic can demand a minimum rank.
 The ranks are novice, apprentice and adept. The class topic demands the
@@ -18,10 +18,10 @@ apprentice rank.
 
 Decision 4: the class gate. Serves instruction 10. The PYTHON door skips the
 class topic while the player is a novice. If a novice asks for the class pool,
-js/challenges.js serves the newest unlocked topic at the same rank, which is
+src/challenges.js serves the newest unlocked topic at the same rank, which is
 the dict pool. The class pool still opens at the apprentice rank.
 
-Decision 5: the Trainer PC is canvas. Serves instructions 7 and 9. js/pc.js
+Decision 5: the Trainer PC is canvas. Serves instructions 7 and 9. src/pc.js
 draws the whole PC screen on the game canvas. The old page-element code is
 gone.
 

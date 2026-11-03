@@ -70,6 +70,7 @@ starts its own Vite server on port 4173 and checks that:
 - all eight gyms have a leader, one per map, in badge order;
 - the north road is a connected badge-gated journey;
 - every warp lands on a walkable tile;
+- outdoor maps have one walkable area and walkable warp sources;
 - a badge gate blocks travel until the badge is earned;
 - the house creature gives its potion exactly once;
 - a malformed save still loads a sane state, and a save pointing into a

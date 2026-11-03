@@ -1,6 +1,6 @@
 # Syllabus
 
-The game teaches Python in one order. The topic order is numbers, decisions, text, lists, dicts, classes. It is fixed in js/challenges.js.
+The game teaches Python in one order. The topic order is numbers, decisions, text, lists, dicts, classes. It is fixed in src/challenges.js.
 Every reading below comes from a cited source. The sources were opened and checked this round.
 
 ## Sources

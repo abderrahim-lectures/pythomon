@@ -10,15 +10,15 @@ which means a human must judge taste and feel.
 
 Instruction 1: an RPG that teaches Python. PASS. The world has towns, routes,
 trainers, gyms and badges. Battles and the Trainer PC serve Python questions
-from js/challenges.js.
+from src/challenges.js.
 
 Instruction 2: Game Boy style. PASS, subjective. The screen is 160 by 144
-pixels with a pixel font, four-shade sprites and palette swaps (js/core.js,
-js/art.js).
+pixels with a pixel font, four-shade sprites and palette swaps (src/core.js,
+src/art.js).
 
 Instruction 3: a storyline like the Game Boy games. PASS. The boot flow runs
-title, intro, rival scenes, gym dialogue and an ending (js/main.js,
-js/data.js).
+title, intro, rival scenes, gym dialogue and an ending (src/main.js,
+src/data.js).
 
 Instruction 4: look for existing JavaScript Pokémon projects. PASS. The search ran
 on 2026-10-27 and found FullScreenPokemon, a 505-star canvas tutorial, PokemonMini and a PixiJS
@@ -38,7 +38,7 @@ matches, so bytes were edited after the last checksum. The pass informs the scre
 and battle staging. No ROM data, text or art is copied. A full disassembly of
 the compressed hack remains out of scope, and REA.md says so.
 
-Instruction 7: the question box is pixel art in the game. PASS. js/pc.js draws
+Instruction 7: the question box is pixel art in the game. PASS. src/pc.js draws
 the whole box on the game canvas: border, title bars, prompt, code and answers.
 
 Instruction 8: questions are inside the game and part of the story. PASS.
@@ -52,7 +52,7 @@ questions all run there.
 
 Instruction 10: a teaching order, and no classes for a novice. PASS. The topic
 order is int, bool, str, list, dict, class. The class pool demands the
-apprentice rank (js/challenges.js). When a novice asks for the class pool, the
+apprentice rank (src/challenges.js). When a novice asks for the class pool, the
 game now serves the newest unlocked topic at the same rank. A browser check of
 60 draws returned only dict-n1 to dict-n5 for a novice and the class apprentice
 questions for an apprentice.
@@ -63,7 +63,7 @@ Walking characters have three frames per direction. The feet sit on the tile
 and the transparent top reaches into the tile above. A local override folder
 can replace any sprite. Beasts are 40 by 40 and built per body kind, with eyes
 inside the silhouette, shadows, stripes, wings, tails and a mark per species.
-Grids are stored per species and side. The review page test/sprites.html shows
+Grids are stored per species and side. The review page tests/sprites.html shows
 every front beast and each person's down and walk frames at three times size.
 
 Instruction 12: real Pokémon sprites. PASS. assets/pmd/ ships 16 front and 16
@@ -74,7 +74,7 @@ House map for the syntax lab. The map credit is in assets/maps/CREDITS.md.
 assets/override/ still lets the owner replace any sprite and keeps personal
 files out of git. Missing images fall back to the drawn art.
 
-Instruction 13: slow the player down. PASS. The step timer at js/world.js
+Instruction 13: slow the player down. PASS. The step timer at src/world.js
 increments the move counter, so a held arrow moves one block at a time. A test
 hold of 900 ms moved the player four blocks.
 
@@ -108,7 +108,7 @@ integer scale capped at 2, with the feet on the platform. People draw at native
 
 ## Test evidence
 
-A Playwright harness runs 28 checks. All pass. The checks cover boot, the 60
+The development Playwright harness ran 28 checks. All passed. The checks cover boot, the 60
 people frames, both multiple choice outcomes, and the answer note. They cover three fills,
 canvas typing, caret placement and a Pyodide code question. They also cover
 movement, the PYTHON door and its reward, touch input, and a battle question
@@ -118,7 +118,7 @@ choice question in the bank. A second sweep checks that every prompt and
 explanation fits its panel. A separate file check found no missing people
 images.
 
-The sprite sheet is at test/sprites.html on the local server at port 8765.
+The sprite sheet is at `tests/sprites.html` under `npm run dev`.
 
 ## Open items
 
