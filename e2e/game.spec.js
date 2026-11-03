@@ -130,6 +130,53 @@ test('every warp lands on a walkable tile', async ({ page }) => {
   expect(bad).toEqual([]);
 });
 
+test('outdoor maps have one walkable area and walkable warp sources', async ({ page }) => {
+  await page.goto('/?debug=world&map=verdant&x=9&y=9');
+  await page.waitForFunction(() => window.PM && PM.world && PM.world.map);
+  const result = await page.evaluate(() => {
+    const badSources = [];
+    const split = [];
+    Object.keys(PM.data.MAPS).forEach(id => {
+      const map = PM.data.MAPS[id];
+      const walk = (x, y) => x >= 0 && y >= 0 && x < map.w && y < map.h &&
+        !PM.art.solid[map.tiles[y][x]];
+      (map.warps || []).forEach(w => {
+        if (!walk(w.x, w.y)) badSources.push(id + ':' + w.x + ',' + w.y);
+      });
+      if (map.indoor) return;
+      const seen = new Set();
+      const sizes = [];
+      for (let y = 0; y < map.h; y++) {
+        for (let x = 0; x < map.w; x++) {
+          const key = x + ',' + y;
+          if (seen.has(key) || !walk(x, y)) continue;
+          const queue = [[x, y]];
+          let size = 0;
+          seen.add(key);
+          while (queue.length) {
+            const [cx, cy] = queue.pop();
+            size += 1;
+            [[1, 0], [-1, 0], [0, 1], [0, -1]].forEach(([dx, dy]) => {
+              const nx = cx + dx;
+              const ny = cy + dy;
+              const nk = nx + ',' + ny;
+              if (!seen.has(nk) && walk(nx, ny)) {
+                seen.add(nk);
+                queue.push([nx, ny]);
+              }
+            });
+          }
+          sizes.push(size);
+        }
+      }
+      if (sizes.length !== 1) split.push({ id, components: sizes.length, sizes: sizes.sort((a, b) => b - a) });
+    });
+    return { badSources, split };
+  });
+  expect(result.badSources).toEqual([]);
+  expect(result.split).toEqual([]);
+});
+
 test('home creature gives one potion and sets its flag', async ({ page }) => {
   await page.goto('/?debug=world&map=verdant&x=9&y=9');
   await page.waitForFunction(() => window.PM && PM.world && PM.world.map);
